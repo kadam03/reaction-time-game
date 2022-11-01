@@ -6,51 +6,47 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
+    public static GameController Instance = null;
     public TMP_Text TextTimer = null;
     public TMP_Text TextPoints = null;
     public RTimer GameTimer = null;
     public int Points = 0;
-    public Button[] Tiles = new Button[5];
-    //public Button 
+    public GameObject TilePrefab = null;
+    public GameObject[] Positions = new GameObject[5];
 
+    Tile currentTile;
     bool tileVisible = false;
-    //float gameTime = 0;
-    //int minutes = 0;
-    //int seconds = 0;
-    //int decimalSec = 0;
     int currentIndex = 0;
     int prevIndex = 0;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        Instance = this;
         Points = 0;
-        //gameTime = 0;
         GameTimer.StartTimer();
-        foreach (Button item in Tiles)
-        {
-            item.gameObject.SetActive(false);
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        //gameTime += Time.deltaTime;
-        //seconds = (int)gameTime % 60;
-        //minutes = (int)gameTime / 60;
         TextTimer.text = string.Format("{0:00}:{1:00}", GameTimer.Minutes, GameTimer.Seconds);
 
         if (tileVisible == false)
         {
-            while (currentIndex == prevIndex)
+            while(currentIndex == prevIndex)
             {
                 currentIndex = Random.Range(0, 5);
             }
 
-            Tiles[currentIndex].gameObject.SetActive(true);
-            tileVisible = true;
-            prevIndex = currentIndex;
+            currentTile = Instantiate(TilePrefab, Positions[currentIndex].transform.position, Quaternion.identity).GetComponent<Tile>();
+            currentTile.transform.SetParent(GameObject.FindWithTag("Canvas").transform);
+            currentTile.transform.localScale = new Vector3(1, 1, 1);
         }
+
+        tileVisible = true;
+        prevIndex = currentIndex;
     }
 
     public void TileCatched()
@@ -58,9 +54,6 @@ public class GameController : MonoBehaviour
         Points++;
         TextPoints.text = Points.ToString();
         tileVisible = false;
-        foreach (Button item in Tiles)
-        {
-            item.gameObject.SetActive(false);
-        }
+        Destroy(currentTile.gameObject);
     }
 }
