@@ -63,4 +63,9 @@ public class RTimer : MonoBehaviour
             Seconds = Seconds
         };
     }
+
+    public void PauseTimer()
+    {
+
+    }
 }
