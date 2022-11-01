@@ -15,9 +15,9 @@ public class GameController : MonoBehaviour
     public GameObject[] Positions = new GameObject[5];
 
     Tile currentTile;
-    bool tileVisible = false;
-    int currentIndex = 0;
-    int prevIndex = 0;
+    bool tileVisible;
+    int currentIndex;
+    int prevIndex;
 
 
     // Start is called before the first frame update
@@ -25,6 +25,10 @@ public class GameController : MonoBehaviour
     {
         Instance = this;
         Points = 0;
+        tileVisible = false;
+        currentIndex = 0;
+        prevIndex = 0;
+        currentTile = null;
         GameTimer.StartTimer();
     }
 
