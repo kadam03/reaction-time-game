@@ -8,15 +8,16 @@ public class RTimer : MonoBehaviour
     public int Hours = 0;
     public int Minutes = 0;
     public int Seconds = 0;
-    public int DecimalSec = 0;
+    public float DecimalSec = 0;
+    public float SecondsWithDecimals = 0;
 
-    float gameTime = 0;
+    float elapsedTime = 0;
     bool started;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        ResetTimer();
     }
 
     // Update is called once per frame
@@ -24,9 +25,11 @@ public class RTimer : MonoBehaviour
     {
         if (started == true)
         {
-            gameTime += Time.deltaTime;
-            Seconds = (int)gameTime % 60;
-            Minutes = (int)gameTime / 60;
+            elapsedTime += Time.deltaTime;
+            DecimalSec = elapsedTime - (int)elapsedTime;
+            Seconds = (int)elapsedTime % 60;
+            SecondsWithDecimals = Seconds + DecimalSec;
+            Minutes = (int)elapsedTime / 60;
             Hours = Minutes / 60;
         }
 
@@ -48,10 +51,12 @@ public class RTimer : MonoBehaviour
 
     public void ResetTimer()
     {
-        gameTime = 0;
+        elapsedTime = 0;
         Hours = 0;
         Minutes = 0;
         Seconds = 0;
+        DecimalSec = 0;
+        SecondsWithDecimals = 0;
     }
 
     public ObjectTime GetElapsetTime()

@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public static GameController Instance = null;
     public TMP_Text TextTimer = null;
     public TMP_Text TextPoints = null;
+    public TMP_Text TextBestReaction = null;
     public RTimer GameTimer = null;
     
     public GameObject TilePrefab = null;
@@ -23,19 +24,13 @@ public class GameController : MonoBehaviour
     int currentIndex;
     int prevIndex;
     int points = 0;
+    float bestReaction = Mathf.Infinity;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
-        points = 0;
-        tileVisible = false;
-        currentIndex = 0;
-        prevIndex = 0;
-        currentTile = null;
-        GameTimer.StartTimer();
-        isPaused = false;
+        ResetGame();
     }
 
     // Update is called once per frame
@@ -46,7 +41,7 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        TextTimer.text = string.Format("{0:00}:{1:00}", GameTimer.Minutes, GameTimer.Seconds);
+        TextTimer.text = string.Format("{0:00}:{1:00.00}", GameTimer.Minutes, GameTimer.SecondsWithDecimals);
 
         if (tileVisible == false)
         {
@@ -64,11 +59,29 @@ public class GameController : MonoBehaviour
         prevIndex = currentIndex;
     }
 
-    public void TileCatched()
+    void ResetGame()
+    {
+        Instance = this;
+        points = 0;
+        tileVisible = false;
+        currentIndex = 0;
+        prevIndex = 0;
+        currentTile = null;
+        GameTimer.StartTimer();
+        isPaused = false;
+        bestReaction = Mathf.Infinity;
+    }
+
+    public void TileCatched(GameObject tile)
     {
         if (!isPaused)
         {
             points++;
+            if (currentTile.Timer.SecondsWithDecimals < bestReaction)
+            {
+                bestReaction = currentTile.Timer.SecondsWithDecimals;
+                TextBestReaction.text = string.Format("{0:0.00}", bestReaction) + "s";
+            }
             TextPoints.text = points.ToString();
             tileVisible = false;
             Destroy(currentTile.gameObject);
@@ -88,4 +101,5 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene(0);
         Time.timeScale = 1;
     }
+
 }

@@ -20,7 +20,7 @@ public class Tile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TextTime.text = Timer.Seconds.ToString();
+        TextTime.text = string.Format("{0:0.00}", Timer.SecondsWithDecimals);
     }
 
     IEnumerator WaitAndStart()
@@ -30,6 +30,6 @@ public class Tile : MonoBehaviour
 
     public void OnTileClick()
     {
-        GameController.Instance.TileCatched();
+        GameController.Instance.TileCatched(this.gameObject);
     }
 }
