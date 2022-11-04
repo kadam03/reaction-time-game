@@ -11,6 +11,13 @@ public class RTimer : MonoBehaviour
     public float DecimalSec = 0;
     public float SecondsWithDecimals = 0;
 
+    public float RemainTime = 0;
+    public int RemainMinutes = 0;
+    public int RemainSeconds = 0;
+    public float RemainDecimalSec = 0;
+    public float RemainSecondsWithDecimals = 0;
+
+
     float elapsedTime = 0;
     bool started;
 
@@ -31,17 +38,19 @@ public class RTimer : MonoBehaviour
             SecondsWithDecimals = Seconds + DecimalSec;
             Minutes = (int)elapsedTime / 60;
             Hours = Minutes / 60;
-        }
 
-        //if (started == false)
-        //{
-        //    Hours = Hours;
-        //}
+            RemainTime -= Time.deltaTime;
+            RemainDecimalSec = RemainTime - (int)RemainTime;
+            RemainSeconds = (int)RemainTime % 60;
+            RemainSecondsWithDecimals = RemainSeconds + RemainDecimalSec;
+            RemainMinutes = (int)RemainTime / 60;
+        }
     }
 
     public void StartTimer()
     {
         started = true;
+        //RemainTime = GameController.Instance.StartTime;
     }
 
     public void StopTimer()
@@ -57,11 +66,17 @@ public class RTimer : MonoBehaviour
         Seconds = 0;
         DecimalSec = 0;
         SecondsWithDecimals = 0;
-    }
 
-    public ObjectTime GetElapsetTime()
+        RemainTime = GameController.Instance.StartTime;
+        RemainMinutes = 0;
+        RemainSeconds = 0;
+        RemainDecimalSec = 0;
+        RemainSecondsWithDecimals = 0;
+}
+
+    public TimeObject GetElapsetTime()
     {
-        return new ObjectTime()
+        return new TimeObject()
         {
             Hours = Hours,
             Minutes = Minutes,

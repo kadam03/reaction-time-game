@@ -11,12 +11,16 @@ public class GameController : MonoBehaviour
     public TMP_Text TextTimer = null;
     public TMP_Text TextPoints = null;
     public TMP_Text TextBestReaction = null;
+    public TMP_Text TextGameOverResult = null;
     public RTimer GameTimer = null;
-    
+    public float StartTime = 10f; // todo: set based on the menu setting
+    public bool IsTimeTrial = true;
+    public bool IsPaused = false;
+
     public GameObject TilePrefab = null;
     public GameObject PauseMenu = null;
+    public GameObject GameOverMenu = null;
     public GameObject PauseShader = null;
-    public bool isPaused = false;
     public GameObject[] Positions = new GameObject[5];
 
     Tile currentTile;
@@ -25,23 +29,34 @@ public class GameController : MonoBehaviour
     int prevIndex;
     int points = 0;
     float bestReaction = Mathf.Infinity;
+    
 
 
     // Start is called before the first frame update
     void Start()
     {
+        Instance = this;
         ResetGame();
+            
+        #if !UNITY_EDITOR
+            IsTimeTrial = MenuController.Instance.ToggleTimeTrial.isOn;
+        #endif
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isPaused)
+        if (IsPaused)
         {
             return;
         }
 
-        TextTimer.text = string.Format("{0:00}:{1:00.00}", GameTimer.Minutes, GameTimer.SecondsWithDecimals);
+        if (IsTimeTrial && GameTimer.RemainTime <= 0)
+        {
+            GameOver();
+        }
+
+        UpdateTimeText();
 
         if (tileVisible == false)
         {
@@ -53,28 +68,66 @@ public class GameController : MonoBehaviour
             currentTile = Instantiate(TilePrefab, Positions[currentIndex].transform.position, Quaternion.identity).GetComponent<Tile>();
             currentTile.transform.SetParent(GameObject.FindWithTag("Canvas").transform);
             currentTile.transform.localScale = new Vector3(1, 1, 1);
-        }
 
-        tileVisible = true;
-        prevIndex = currentIndex;
+            tileVisible = true;
+            prevIndex = currentIndex;
+        }
+    }
+
+    private void GameOver()
+    {
+        //StopGame();
+        GameOverMenu.SetActive(true);
+        PauseShader.SetActive(true);
+        IsPaused = true;
+        Time.timeScale = IsPaused ? 0 : 1;
+        Destroy(currentTile.gameObject);
+        TextGameOverResult.text = points.ToString();
     }
 
     void ResetGame()
     {
-        Instance = this;
         points = 0;
+        TextPoints.text = 0.ToString();
         tileVisible = false;
         currentIndex = 0;
         prevIndex = 0;
-        currentTile = null;
         GameTimer.StartTimer();
-        isPaused = false;
+        GameTimer.RemainTime = StartTime;
+        IsPaused = false;
+        Time.timeScale = IsPaused ? 0 : 1;
         bestReaction = Mathf.Infinity;
+        TextBestReaction.text = "";
+        PauseShader.SetActive(false);
+        PauseMenu.SetActive(false);
+        GameOverMenu.SetActive(false);
+    }
+
+    public void RestartGame()
+    {
+        ResetGame();
+        //Time.timeScale = 1;
+    }
+
+    public void PauseGame()
+    {
+        //IsPaused = !IsPaused;
+        //Time.timeScale = IsPaused ? 0 : 1;
+        //PauseShader.SetActive(IsPaused);
+        StopStartGame();
+        PauseMenu.SetActive(IsPaused);
+    }
+
+    void StopStartGame()
+    {
+        IsPaused = !IsPaused;
+        Time.timeScale = IsPaused ? 0 : 1;
+        PauseShader.SetActive(IsPaused);
     }
 
     public void TileCatched(GameObject tile)
     {
-        if (!isPaused)
+        if (!IsPaused)
         {
             points++;
             if (currentTile.Timer.SecondsWithDecimals < bestReaction)
@@ -88,18 +141,24 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void PauseGame()
-    {
-        isPaused = !isPaused;
-        Time.timeScale = isPaused ? 0 : 1;
-        PauseShader.SetActive(isPaused);
-        PauseMenu.SetActive(isPaused);
-    }
-
     public void QuitToMenu()
     {
         SceneManager.LoadScene(0);
         Time.timeScale = 1;
     }
+
+    void UpdateTimeText()
+    {
+        if (IsTimeTrial)
+        {
+            TextTimer.text = string.Format("{0:00}:{1:00.00}", GameTimer.RemainMinutes, GameTimer.RemainSecondsWithDecimals);
+        }
+        else
+        {
+            TextTimer.text = string.Format("{0:00}:{1:00.00}", GameTimer.Minutes, GameTimer.SecondsWithDecimals);
+        }
+    }
+
+
 
 }
