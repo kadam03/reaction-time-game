@@ -37,10 +37,7 @@ public class GameController : MonoBehaviour
     {
         Instance = this;
         ResetGame();
-            
-        #if !UNITY_EDITOR
-            IsTimeTrial = MenuController.Instance.ToggleTimeTrial.isOn;
-        #endif
+        IsTimeTrial = MenuController.IsTimeTrial;
     }
 
     // Update is called once per frame
@@ -53,6 +50,7 @@ public class GameController : MonoBehaviour
 
         if (IsTimeTrial && GameTimer.RemainTime <= 0)
         {
+            TextTimer.text = "00:00.00";
             GameOver();
         }
 
@@ -72,17 +70,6 @@ public class GameController : MonoBehaviour
             tileVisible = true;
             prevIndex = currentIndex;
         }
-    }
-
-    private void GameOver()
-    {
-        //StopGame();
-        GameOverMenu.SetActive(true);
-        PauseShader.SetActive(true);
-        IsPaused = true;
-        Time.timeScale = IsPaused ? 0 : 1;
-        Destroy(currentTile.gameObject);
-        TextGameOverResult.text = points.ToString();
     }
 
     void ResetGame()
@@ -106,14 +93,10 @@ public class GameController : MonoBehaviour
     public void RestartGame()
     {
         ResetGame();
-        //Time.timeScale = 1;
     }
 
     public void PauseGame()
     {
-        //IsPaused = !IsPaused;
-        //Time.timeScale = IsPaused ? 0 : 1;
-        //PauseShader.SetActive(IsPaused);
         StopStartGame();
         PauseMenu.SetActive(IsPaused);
     }
@@ -121,8 +104,17 @@ public class GameController : MonoBehaviour
     void StopStartGame()
     {
         IsPaused = !IsPaused;
+        currentTile.gameObject.SetActive(!IsPaused); // ugly hotfix so the tile does not cover the pause or game over menu
         Time.timeScale = IsPaused ? 0 : 1;
         PauseShader.SetActive(IsPaused);
+    }
+
+    private void GameOver()
+    {
+        StopStartGame();
+        GameOverMenu.SetActive(true);
+        Destroy(currentTile.gameObject);
+        TextGameOverResult.text = points.ToString();
     }
 
     public void TileCatched(GameObject tile)

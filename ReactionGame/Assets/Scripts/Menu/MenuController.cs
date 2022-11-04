@@ -7,13 +7,15 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    public static MenuController Instance = null;
+    //public static MenuController Instance = null;
     public Toggle ToggleTimeTrial = null;
+    public static bool IsTimeTrial = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
+        //Instance = this;
+        ToggleTimeTrial.isOn = IsTimeTrial;
     }
 
     // Update is called once per frame
@@ -40,5 +42,6 @@ public class MenuController : MonoBehaviour
     public void ToggleTimeTrialChanged()
     {
         // Todo implement appearing timebox to set the maximum time
+        IsTimeTrial = ToggleTimeTrial.isOn;
     }
 }
