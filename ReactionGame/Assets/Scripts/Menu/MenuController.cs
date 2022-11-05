@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,7 @@ public class MenuController : MonoBehaviour
 {
     //public static MenuController Instance = null;
     public Toggle ToggleTimeTrial = null;
+    public TMP_Text TextVersion = null;
     public static bool IsTimeTrial = true;
 
     // Start is called before the first frame update
@@ -16,6 +18,7 @@ public class MenuController : MonoBehaviour
     {
         //Instance = this;
         ToggleTimeTrial.isOn = IsTimeTrial;
+        TextVersion.text = "v" + Application.version;
     }
 
     // Update is called once per frame
