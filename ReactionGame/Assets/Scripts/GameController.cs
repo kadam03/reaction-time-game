@@ -21,6 +21,8 @@ public class GameController : MonoBehaviour
     public GameObject PauseMenu = null;
     public GameObject GameOverMenu = null;
     public GameObject PauseShader = null;
+    public GameObject SpawnArea = null;
+    public GameObject GameCanvas = null;
     public GameObject[] Positions = new GameObject[5];
 
     Tile currentTile;
@@ -36,6 +38,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Instance = this;
+        System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
         ResetGame();
         IsTimeTrial = MenuController.IsTimeTrial;
     }
@@ -55,21 +58,7 @@ public class GameController : MonoBehaviour
         }
 
         UpdateTimeText();
-
-        if (tileVisible == false)
-        {
-            while(currentIndex == prevIndex)
-            {
-                currentIndex = Random.Range(0, 5);
-            }
-
-            currentTile = Instantiate(TilePrefab, Positions[currentIndex].transform.position, Quaternion.identity).GetComponent<Tile>();
-            currentTile.transform.SetParent(GameObject.FindWithTag("Canvas").transform);
-            currentTile.transform.localScale = new Vector3(1, 1, 1);
-
-            tileVisible = true;
-            prevIndex = currentIndex;
-        }
+        SpawnTileRandom();
     }
 
     void ResetGame()
@@ -151,6 +140,43 @@ public class GameController : MonoBehaviour
         }
     }
 
+    void SpawnTileDefinedLoc()
+    {
+        if (tileVisible == false)
+        {
+            while (currentIndex == prevIndex)
+            {
+                currentIndex = Random.Range(0, 5);
+            }
 
+            currentTile = Instantiate(TilePrefab, Positions[currentIndex].transform.position, Quaternion.identity).GetComponent<Tile>();
+            currentTile.transform.SetParent(GameCanvas.transform);
+            currentTile.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+
+            tileVisible = true;
+            prevIndex = currentIndex;
+        }
+    }
+
+    void SpawnTileRandom()
+    {
+        if (tileVisible == false)
+        {
+            Vector3 pos = new Vector3();
+            RectTransform rt = SpawnArea.GetComponent<RectTransform>();
+
+            float refScaleX = GameCanvas.GetComponent<RectTransform>().localScale.x;
+            float refScaleY = GameCanvas.GetComponent<RectTransform>().localScale.y;
+
+            pos.x = Random.Range(rt.rect.xMin, rt.rect.xMax) * refScaleX;
+            pos.y = Random.Range(rt.rect.yMin, rt.rect.yMax) * refScaleY;
+
+            currentTile = Instantiate(TilePrefab, pos + rt.transform.position, Quaternion.identity).GetComponent<Tile>();
+            currentTile.transform.SetParent(GameCanvas.transform);
+            currentTile.transform.localScale = new Vector3(currentTile.GetComponent<RectTransform>().localScale.x * refScaleX, currentTile.GetComponent<RectTransform>().localScale.y * refScaleY, GameCanvas.GetComponent<RectTransform>().localScale.z);
+
+            tileVisible = true;
+        }
+    }
 
 }

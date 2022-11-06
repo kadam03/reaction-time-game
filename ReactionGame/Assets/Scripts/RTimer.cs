@@ -50,7 +50,6 @@ public class RTimer : MonoBehaviour
     public void StartTimer()
     {
         started = true;
-        //RemainTime = GameController.Instance.StartTime;
     }
 
     public void StopTimer()
