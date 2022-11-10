@@ -12,6 +12,8 @@ public class MenuController : MonoBehaviour
     public Toggle ToggleTimeTrial = null;
     public GameObject InputTimeTrialLength = null;
     public TMP_Text TextVersion = null;
+    public GameObject[] DecorTiles = new GameObject[4];
+
     public static bool IsTimeTrial = true;
     public static int TrialLength;
 
@@ -28,7 +30,7 @@ public class MenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        MoveDecorTiles();
     }
 
     public void StartNewGame()
@@ -70,5 +72,10 @@ public class MenuController : MonoBehaviour
             TrialLength = 5;
             InputTimeTrialLength.GetComponent<TMP_InputField>().text = TrialLength.ToString();
         }
+    }
+
+    public void MoveDecorTiles()
+    {
+        DecorTiles[0].transform.Translate(0, 1 * 0.1f, 0);
     }
 }

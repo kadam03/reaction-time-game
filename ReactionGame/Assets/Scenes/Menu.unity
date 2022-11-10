@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 56593383}
   - component: {fileID: 56593382}
   m_Layer: 5
-  m_Name: ImageTile (2)
+  m_Name: ImageTile3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,17 +148,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 56593380}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -312.98886}
+  m_LocalScale: {x: 0.27291664, y: 0.27291664, z: 0.27291664}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 404782152}
+  m_Father: {fileID: 869706700}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -362, y: 390}
+  m_AnchoredPosition: {x: -11.547241, y: -130.84186}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &56593382
@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 244006506}
   - component: {fileID: 244006505}
   m_Layer: 5
-  m_Name: ImageTile
+  m_Name: ImageTile1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -344,17 +344,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 244006503}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -312.98886}
+  m_LocalScale: {x: 0.27291664, y: 0.27291664, z: 0.27291664}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 404782152}
+  m_Father: {fileID: 869706700}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 290, y: -492}
+  m_AnchoredPosition: {x: -128.35571, y: 152.44586}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &244006505
@@ -692,12 +692,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 814414300}
+  - {fileID: 869706700}
   - {fileID: 1740972984}
   - {fileID: 1830852222}
-  - {fileID: 244006504}
-  - {fileID: 1989926191}
-  - {fileID: 56593381}
-  - {fileID: 2027005898}
   - {fileID: 1407857503}
   - {fileID: 624930508}
   - {fileID: 946898160}
@@ -1267,6 +1264,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 814414299}
   m_CullTransparentMesh: 1
+--- !u!1 &869706699
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 869706700}
+  m_Layer: 0
+  m_Name: Decors
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &869706700
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 869706699}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 220.31067, y: -90.57985, z: 1146.8293}
+  m_LocalScale: {x: 3.6641223, y: 3.6641223, z: 3.6641223}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 244006504}
+  - {fileID: 1989926191}
+  - {fileID: 56593381}
+  - {fileID: 2027005898}
+  m_Father: {fileID: 404782152}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &946898159
 GameObject:
   m_ObjectHideFlags: 0
@@ -2334,6 +2366,11 @@ MonoBehaviour:
   ToggleTimeTrial: {fileID: 946898161}
   InputTimeTrialLength: {fileID: 279450773}
   TextVersion: {fileID: 1167379347}
+  DecorTiles:
+  - {fileID: 244006503}
+  - {fileID: 1989926190}
+  - {fileID: 56593380}
+  - {fileID: 2027005897}
 --- !u!4 &1708121591
 Transform:
   m_ObjectHideFlags: 0
@@ -2631,7 +2668,7 @@ GameObject:
   - component: {fileID: 1989926193}
   - component: {fileID: 1989926192}
   m_Layer: 5
-  m_Name: ImageTile (1)
+  m_Name: ImageTile2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2644,17 +2681,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1989926190}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -312.98886}
+  m_LocalScale: {x: 0.27291664, y: 0.27291664, z: 0.27291664}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 404782152}
+  m_Father: {fileID: 869706700}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -255, y: -331}
+  m_AnchoredPosition: {x: 17.654846, y: 196.38544}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1989926192
@@ -2707,7 +2744,7 @@ GameObject:
   - component: {fileID: 2027005900}
   - component: {fileID: 2027005899}
   m_Layer: 5
-  m_Name: ImageTile (3)
+  m_Name: ImageTile4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2720,17 +2757,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2027005897}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -312.98886}
+  m_LocalScale: {x: 0.27291664, y: 0.27291664, z: 0.27291664}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 404782152}
+  m_Father: {fileID: 869706700}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -258, y: -410}
+  m_AnchoredPosition: {x: -130.53891, y: -87.17502}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2027005899
