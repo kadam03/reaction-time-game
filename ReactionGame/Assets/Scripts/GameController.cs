@@ -41,6 +41,7 @@ public class GameController : MonoBehaviour
         System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
         ResetGame();
         IsTimeTrial = MenuController.IsTimeTrial;
+        StartTime = MenuController.TrialLength;
     }
 
     // Update is called once per frame
@@ -173,6 +174,7 @@ public class GameController : MonoBehaviour
 
             currentTile = Instantiate(TilePrefab, pos + rt.transform.position, Quaternion.identity).GetComponent<Tile>();
             currentTile.transform.SetParent(GameCanvas.transform);
+
             currentTile.transform.localScale = new Vector3(currentTile.GetComponent<RectTransform>().localScale.x * refScaleX, currentTile.GetComponent<RectTransform>().localScale.y * refScaleY, GameCanvas.GetComponent<RectTransform>().localScale.z);
 
             tileVisible = true;
