@@ -2366,6 +2366,7 @@ MonoBehaviour:
   ToggleTimeTrial: {fileID: 946898161}
   InputTimeTrialLength: {fileID: 279450773}
   TextVersion: {fileID: 1167379347}
+  CanvasMenu: {fileID: 404782148}
   DecorTiles:
   - {fileID: 244006503}
   - {fileID: 1989926190}

@@ -12,10 +12,13 @@ public class MenuController : MonoBehaviour
     public Toggle ToggleTimeTrial = null;
     public GameObject InputTimeTrialLength = null;
     public TMP_Text TextVersion = null;
+    public GameObject CanvasMenu = null;
     public GameObject[] DecorTiles = new GameObject[4];
 
     public static bool IsTimeTrial = true;
     public static int TrialLength;
+
+    int[] decorDirections = new int[4] { 1, -1, -1, 1 };
 
     // Start is called before the first frame update
     void Start()
@@ -54,7 +57,6 @@ public class MenuController : MonoBehaviour
 
     public void ToggleTimeTrialChanged()
     {
-        // Todo implement appearing timebox to set the maximum time
         IsTimeTrial = ToggleTimeTrial.isOn;
         InputTimeTrialLength.SetActive(ToggleTimeTrial.isOn);
     }
@@ -74,8 +76,35 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    public void MoveDecorTiles()
+    void MoveDecorTiles()
     {
-        DecorTiles[0].transform.Translate(0, 1 * 0.1f, 0);
+        for (int i = 0; i < DecorTiles.Length; i++)
+        {
+            // In case it's even, move up & down
+            if (i % 2 == 0)
+            {
+                MoveInDirection(i, DecorTiles[i].transform.position.y, 0, 1, CanvasMenu.GetComponent<RectTransform>().rect.yMin, CanvasMenu.GetComponent<RectTransform>().rect.yMax, CanvasMenu.GetComponent<RectTransform>().localScale.y);
+            }
+            // if odd, move left & right
+            else
+            {
+                MoveInDirection(i, DecorTiles[i].transform.position.x, 1, 0, CanvasMenu.GetComponent<RectTransform>().rect.xMin, CanvasMenu.GetComponent<RectTransform>().rect.xMax, CanvasMenu.GetComponent<RectTransform>().localScale.x);
+            }
+        }
+    }
+
+    void MoveInDirection(int index, float pos, int stepX, int stepY, float min, float max, float scale)
+    {
+        float speed = decorDirections[index] * (0.1f - (index / 100f));
+        DecorTiles[index].transform.Translate(stepX * speed, stepY * speed, 0); // up & down
+
+        if (pos > max * scale)
+        {
+            decorDirections[index] = -1;
+        }
+        if (pos < min * scale)
+        {
+            decorDirections[index] = 1;
+        }
     }
 }
