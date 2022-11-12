@@ -167,6 +167,9 @@ MonoBehaviour:
   PauseShader: {fileID: 1615317220}
   SpawnArea: {fileID: 392634064}
   GameCanvas: {fileID: 648276069}
+  TileTypes:
+  - {fileID: 11400000, guid: 32337c9f61d2588449802c1a6163c1cd, type: 2}
+  - {fileID: 11400000, guid: edf472ff011259046bf404e4a883d1fc, type: 2}
   Positions:
   - {fileID: 265977140}
   - {fileID: 1646948231}

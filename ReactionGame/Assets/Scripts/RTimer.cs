@@ -24,7 +24,7 @@ public class RTimer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ResetTimer();
+
     }
 
     // Update is called once per frame
@@ -57,7 +57,7 @@ public class RTimer : MonoBehaviour
         started = false;
     }
 
-    public void ResetTimer()
+    public void ResetTimer(int startTime)
     {
         elapsedTime = 0;
         Hours = 0;
@@ -66,7 +66,7 @@ public class RTimer : MonoBehaviour
         DecimalSec = 0;
         SecondsWithDecimals = 0;
 
-        RemainTime = GameController.Instance.StartTime;
+        RemainTime = startTime;
         RemainMinutes = 0;
         RemainSeconds = 0;
         RemainDecimalSec = 0;

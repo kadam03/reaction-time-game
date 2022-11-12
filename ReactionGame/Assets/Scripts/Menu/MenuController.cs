@@ -16,14 +16,13 @@ public class MenuController : MonoBehaviour
     public GameObject[] DecorTiles = new GameObject[4];
 
     public static bool IsTimeTrial = true;
-    public static int TrialLength;
+    public int TrialLength;
 
     int[] decorDirections = new int[4] { 1, -1, -1, 1 };
 
     // Start is called before the first frame update
     void Start()
     {
-        //Instance = this;
         ToggleTimeTrial.isOn = IsTimeTrial;
         InputTimeTrialLength.SetActive(ToggleTimeTrial.isOn);
         TrialLength = int.Parse(InputTimeTrialLength.GetComponent<TMP_InputField>().text);
@@ -38,6 +37,7 @@ public class MenuController : MonoBehaviour
 
     public void StartNewGame()
     {
+        GameController.StartTime = TrialLength;
         SceneManager.LoadScene(1);
     }
 

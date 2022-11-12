@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Tile : MonoBehaviour
 {
-    //public RTimer Timer = null;
+    public TileData tileData = null;
     public TMP_Text TextTime = null;
     public RTimer Timer = null;
     public Button TileButton = null;
@@ -14,13 +14,35 @@ public class Tile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Timer.RemainTime = tileData.Time;
+        TileButton.image.color = tileData.TileColor;
         Timer.StartTimer();
     }
 
     // Update is called once per frame
     void Update()
     {
-        TextTime.text = string.Format("{0:0.00}", Timer.SecondsWithDecimals);
+        if (tileData.Disappears)
+        {
+            TextTime.text = string.Format("{0:0.00}", Timer.RemainSecondsWithDecimals);
+            Debug.Log(Timer.RemainSecondsWithDecimals);
+            if (Timer.RemainTime < 0)
+            {
+                GameController.Instance.TileDisappeared(this.gameObject);
+            }
+        }
+        else
+        {
+            TextTime.text = string.Format("{0:0.00}", Timer.SecondsWithDecimals);
+        }
+    }
+
+    public void InitTile(TileData td)
+    {
+        tileData = td;
+        Timer.RemainTime = tileData.Time;
+        TileButton.image.color = tileData.TileColor;
+        Timer.StartTimer();
     }
 
     IEnumerator WaitAndStart()

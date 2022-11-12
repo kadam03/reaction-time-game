@@ -8,12 +8,12 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     public static GameController Instance = null;
+    public static int StartTime = 10; // todo: set based on the menu setting
     public TMP_Text TextTimer = null;
     public TMP_Text TextPoints = null;
     public TMP_Text TextBestReaction = null;
     public TMP_Text TextGameOverResult = null;
     public RTimer GameTimer = null;
-    public float StartTime = 10f; // todo: set based on the menu setting
     public bool IsTimeTrial = true;
     public bool IsPaused = false;
 
@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
     public GameObject PauseShader = null;
     public GameObject SpawnArea = null;
     public GameObject GameCanvas = null;
+    public List<TileData> TileTypes = new List<TileData>();
     public GameObject[] Positions = new GameObject[5];
 
     Tile currentTile;
@@ -31,8 +32,6 @@ public class GameController : MonoBehaviour
     int prevIndex;
     int points = 0;
     float bestReaction = Mathf.Infinity;
-    
-
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +40,6 @@ public class GameController : MonoBehaviour
         System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
         ResetGame();
         IsTimeTrial = MenuController.IsTimeTrial;
-        StartTime = MenuController.TrialLength;
     }
 
     // Update is called once per frame
@@ -69,8 +67,8 @@ public class GameController : MonoBehaviour
         tileVisible = false;
         currentIndex = 0;
         prevIndex = 0;
+        GameTimer.ResetTimer(StartTime);
         GameTimer.StartTimer();
-        GameTimer.RemainTime = StartTime;
         IsPaused = false;
         Time.timeScale = IsPaused ? 0 : 1;
         bestReaction = Mathf.Infinity;
@@ -111,12 +109,23 @@ public class GameController : MonoBehaviour
     {
         if (!IsPaused)
         {
-            points++;
+            points += tile.GetComponent<Tile>().tileData.PointValue;
             if (currentTile.Timer.SecondsWithDecimals < bestReaction)
             {
                 bestReaction = currentTile.Timer.SecondsWithDecimals;
                 TextBestReaction.text = string.Format("{0:0.00}", bestReaction) + "s";
             }
+            TextPoints.text = points.ToString();
+            tileVisible = false;
+            Destroy(currentTile.gameObject);
+        }
+    }
+
+    public void TileDisappeared(GameObject tile)
+    {
+        if (!IsPaused)
+        {
+            points -= tile.GetComponent<Tile>().tileData.MinusPoints;
             TextPoints.text = points.ToString();
             tileVisible = false;
             Destroy(currentTile.gameObject);
@@ -173,6 +182,7 @@ public class GameController : MonoBehaviour
             pos.y = Random.Range(rt.rect.yMin, rt.rect.yMax) * refScaleY;
 
             currentTile = Instantiate(TilePrefab, pos + rt.transform.position, Quaternion.identity).GetComponent<Tile>();
+            currentTile.tileData = TileTypes[Random.Range(0, 2)];
             currentTile.transform.SetParent(GameCanvas.transform);
 
             currentTile.transform.localScale = new Vector3(currentTile.GetComponent<RectTransform>().localScale.x * refScaleX, currentTile.GetComponent<RectTransform>().localScale.y * refScaleY, GameCanvas.GetComponent<RectTransform>().localScale.z);
