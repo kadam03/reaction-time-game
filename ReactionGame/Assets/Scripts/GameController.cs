@@ -132,6 +132,12 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void MissClick()
+    {
+        points--;
+        TextPoints.text = points.ToString();
+    }
+
     public void QuitToMenu()
     {
         SceneManager.LoadScene(0);
@@ -190,5 +196,4 @@ public class GameController : MonoBehaviour
             tileVisible = true;
         }
     }
-
 }
