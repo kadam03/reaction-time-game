@@ -19,10 +19,12 @@ public class MenuController : MonoBehaviour
     public int TrialLength;
 
     int[] decorDirections = new int[4] { 1, -1, -1, 1 };
+    float tempDtime;
 
     // Start is called before the first frame update
     void Start()
     {
+        tempDtime = 0;
         ToggleTimeTrial.isOn = IsTimeTrial;
         InputTimeTrialLength.SetActive(ToggleTimeTrial.isOn);
         TrialLength = int.Parse(InputTimeTrialLength.GetComponent<TMP_InputField>().text);
@@ -32,7 +34,12 @@ public class MenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MoveDecorTiles();
+        tempDtime += Time.deltaTime;
+        if (tempDtime >= 0.015)
+        {
+            MoveDecorTiles();
+            tempDtime = 0;
+        }
     }
 
     public void StartNewGame()
@@ -95,14 +102,14 @@ public class MenuController : MonoBehaviour
 
     void MoveInDirection(int index, float pos, int stepX, int stepY, float min, float max, float scale)
     {
-        float speed = decorDirections[index] * (0.1f - (index / 100f));
+        float speed = decorDirections[index] * (0.8f + index / 10f);
         DecorTiles[index].transform.Translate(stepX * speed, stepY * speed, 0); // up & down
 
-        if (pos > max * scale)
+        if (pos > max * scale * 1.2)
         {
             decorDirections[index] = -1;
         }
-        if (pos < min * scale)
+        if (pos < min * scale * 1.2)
         {
             decorDirections[index] = 1;
         }

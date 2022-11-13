@@ -8,11 +8,13 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     public static GameController Instance = null;
-    public static int StartTime = 10; // todo: set based on the menu setting
+    public static int StartTime = 20; // todo: set based on the menu setting
     public TMP_Text TextTimer = null;
     public TMP_Text TextPoints = null;
     public TMP_Text TextBestReaction = null;
     public TMP_Text TextGameOverResult = null;
+    public TMP_Text TextBestReactionResult = null;
+    public TMP_Text TextAVGReactionResult = null;
     public RTimer GameTimer = null;
     public bool IsTimeTrial = true;
     public bool IsPaused = false;
@@ -28,10 +30,10 @@ public class GameController : MonoBehaviour
 
     Tile currentTile;
     bool tileVisible;
-    int currentIndex;
-    int prevIndex;
     int points = 0;
     float bestReaction = Mathf.Infinity;
+    int numberOfCatched = 0;
+    float avgReaction = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -52,12 +54,17 @@ public class GameController : MonoBehaviour
 
         if (IsTimeTrial && GameTimer.RemainTime <= 0)
         {
-            TextTimer.text = "00:00.00";
             GameOver();
+            return;
         }
 
         UpdateTimeText();
         SpawnTileRandom();
+    }
+
+    public void RestartGame()
+    {
+        ResetGame();
     }
 
     void ResetGame()
@@ -65,8 +72,6 @@ public class GameController : MonoBehaviour
         points = 0;
         TextPoints.text = 0.ToString();
         tileVisible = false;
-        currentIndex = 0;
-        prevIndex = 0;
         GameTimer.ResetTimer(StartTime);
         GameTimer.StartTimer();
         IsPaused = false;
@@ -76,17 +81,101 @@ public class GameController : MonoBehaviour
         PauseShader.SetActive(false);
         PauseMenu.SetActive(false);
         GameOverMenu.SetActive(false);
-    }
-
-    public void RestartGame()
-    {
-        ResetGame();
+        numberOfCatched = 0;
+        avgReaction = 0;
     }
 
     public void PauseGame()
     {
         StopStartGame();
         PauseMenu.SetActive(IsPaused);
+    }
+
+    public void TileCatched(GameObject tile)
+    {
+        TileData td = tile.GetComponent<Tile>().tileData;
+        if (!IsPaused)
+        {
+            switch (td.friendlyness)
+            {
+                case TileData.Friendlyness.Friendly:
+                    points += td.RewardValue;
+                    break;
+                case TileData.Friendlyness.PointKiller:
+                    points += td.RewardValue;
+                    break;
+                case TileData.Friendlyness.TimeKiller:
+                    GameTimer.RemainTime -= td.MistakeValue;
+                    break;
+                case TileData.Friendlyness.TimeHealer:
+                    GameTimer.RemainTime += td.RewardValue;
+                    break;
+                default:
+                    break;
+            }
+
+            UpdateStats();
+            KillTile(currentTile.gameObject);
+        }
+    }
+
+    public void MissClick()
+    {
+        if (!IsPaused)
+        {
+            if (currentTile.tileData.friendlyness == TileData.Friendlyness.TimeKiller)
+            {
+                points++;
+                UpdateStats();
+                KillTile(currentTile.gameObject);
+            }
+            else
+            {
+                points--;
+            }
+
+            TextPoints.text = points.ToString();
+        }
+    }
+
+    public void TileDisappeared(GameObject tile)
+    {
+        TileData td = tile.GetComponent<Tile>().tileData;
+        if (!IsPaused)
+        {
+            switch (td.friendlyness)
+            {
+                case TileData.Friendlyness.PointKiller:
+                    points -= td.MistakeValue;
+                    break;
+                default:
+                    break;
+            }
+
+            KillTile(currentTile.gameObject);
+        }
+    }
+
+    public void QuitToMenu()
+    {
+        SceneManager.LoadScene(0);
+        Time.timeScale = 1;
+    }
+
+    void UpdateStats()
+    {
+        numberOfCatched++;
+        CalcAverageReact();
+        CheckAndUpdateBestReact();
+    }
+
+    void CheckAndUpdateBestReact()
+    {
+        if (currentTile.Timer.SecondsWithDecimals < bestReaction)
+        {
+            bestReaction = currentTile.Timer.SecondsWithDecimals;
+            TextBestReaction.text = string.Format("{0:0.00}", bestReaction) + "s";
+        }
     }
 
     void StopStartGame()
@@ -97,80 +186,38 @@ public class GameController : MonoBehaviour
         PauseShader.SetActive(IsPaused);
     }
 
-    private void GameOver()
+    void GameOver()
     {
+        TextTimer.text = "00:00.00";
+        TextBestReactionResult.text = TextBestReaction.text;
+        TextAVGReactionResult.text = string.Format("{0:0.00}", avgReaction) + "s";
         StopStartGame();
         GameOverMenu.SetActive(true);
         Destroy(currentTile.gameObject);
         TextGameOverResult.text = points.ToString();
     }
-
-    public void TileCatched(GameObject tile)
+    void KillTile(GameObject go)
     {
-        if (!IsPaused)
-        {
-            points += tile.GetComponent<Tile>().tileData.PointValue;
-            if (currentTile.Timer.SecondsWithDecimals < bestReaction)
-            {
-                bestReaction = currentTile.Timer.SecondsWithDecimals;
-                TextBestReaction.text = string.Format("{0:0.00}", bestReaction) + "s";
-            }
-            TextPoints.text = points.ToString();
-            tileVisible = false;
-            Destroy(currentTile.gameObject);
-        }
-    }
-
-    public void TileDisappeared(GameObject tile)
-    {
-        if (!IsPaused)
-        {
-            points -= tile.GetComponent<Tile>().tileData.MinusPoints;
-            TextPoints.text = points.ToString();
-            tileVisible = false;
-            Destroy(currentTile.gameObject);
-        }
-    }
-
-    public void MissClick()
-    {
-        points--;
         TextPoints.text = points.ToString();
+        tileVisible = false;
+        Destroy(go);
     }
 
-    public void QuitToMenu()
+    void CalcAverageReact()
     {
-        SceneManager.LoadScene(0);
-        Time.timeScale = 1;
+        avgReaction += currentTile.Timer.SecondsWithDecimals;
+        avgReaction /= 2f;
     }
 
     void UpdateTimeText()
     {
-        if (IsTimeTrial)
+        if (IsTimeTrial & GameTimer.RemainTime >= 0)
         {
             TextTimer.text = string.Format("{0:00}:{1:00.00}", GameTimer.RemainMinutes, GameTimer.RemainSecondsWithDecimals);
         }
         else
         {
             TextTimer.text = string.Format("{0:00}:{1:00.00}", GameTimer.Minutes, GameTimer.SecondsWithDecimals);
-        }
-    }
-
-    void SpawnTileDefinedLoc()
-    {
-        if (tileVisible == false)
-        {
-            while (currentIndex == prevIndex)
-            {
-                currentIndex = Random.Range(0, 5);
-            }
-
-            currentTile = Instantiate(TilePrefab, Positions[currentIndex].transform.position, Quaternion.identity).GetComponent<Tile>();
-            currentTile.transform.SetParent(GameCanvas.transform);
-            currentTile.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
-
-            tileVisible = true;
-            prevIndex = currentIndex;
         }
     }
 
@@ -188,7 +235,7 @@ public class GameController : MonoBehaviour
             pos.y = Random.Range(rt.rect.yMin, rt.rect.yMax) * refScaleY;
 
             currentTile = Instantiate(TilePrefab, pos + rt.transform.position, Quaternion.identity).GetComponent<Tile>();
-            currentTile.tileData = TileTypes[Random.Range(0, 2)];
+            currentTile.tileData = TileTypes[Random.Range(0, TileTypes.Count)];
             currentTile.transform.SetParent(GameCanvas.transform);
 
             currentTile.transform.localScale = new Vector3(currentTile.GetComponent<RectTransform>().localScale.x * refScaleX, currentTile.GetComponent<RectTransform>().localScale.y * refScaleY, GameCanvas.GetComponent<RectTransform>().localScale.z);

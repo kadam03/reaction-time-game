@@ -10,12 +10,13 @@ public class Tile : MonoBehaviour
     public TMP_Text TextTime = null;
     public RTimer Timer = null;
     public Button TileButton = null;
+    public Image Background = null;
 
     // Start is called before the first frame update
     void Start()
     {
         Timer.RemainTime = tileData.Time;
-        TileButton.image.color = tileData.TileColor;
+        Background.color = tileData.TileColor;
         Timer.StartTimer();
     }
 
@@ -25,7 +26,6 @@ public class Tile : MonoBehaviour
         if (tileData.Disappears)
         {
             TextTime.text = string.Format("{0:0.00}", Timer.RemainSecondsWithDecimals);
-            Debug.Log(Timer.RemainSecondsWithDecimals);
             if (Timer.RemainTime < 0)
             {
                 GameController.Instance.TileDisappeared(this.gameObject);
@@ -35,14 +35,6 @@ public class Tile : MonoBehaviour
         {
             TextTime.text = string.Format("{0:0.00}", Timer.SecondsWithDecimals);
         }
-    }
-
-    public void InitTile(TileData td)
-    {
-        tileData = td;
-        Timer.RemainTime = tileData.Time;
-        TileButton.image.color = tileData.TileColor;
-        Timer.StartTimer();
     }
 
     IEnumerator WaitAndStart()

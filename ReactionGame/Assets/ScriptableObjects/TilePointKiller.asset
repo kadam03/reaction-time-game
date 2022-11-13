@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72d96a9b8c30f31428f4799d3bba7e49, type: 3}
-  m_Name: TileGold
+  m_Name: TilePointKiller
   m_EditorClassIdentifier: 
-  TileName: Gold
-  PointValue: 3
-  MinusPoints: 2
+  TileName: Treasure
+  RewardValue: 3
+  MistakeValue: 2
   TileColor: {r: 0.7529412, g: 0.50855416, b: 0, a: 1}
   Disappears: 1
   Time: 1.2
+  friendlyness: 1
