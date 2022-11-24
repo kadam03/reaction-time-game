@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Tile", menuName = "ReactionGame/Tile")]
@@ -22,5 +23,7 @@ public class TileData : ScriptableObject
     public bool Disappears;
     public float Time;
     public Friendlyness friendlyness;
+    [TextArea(3, 5)]
+    public string Description;
 
 }

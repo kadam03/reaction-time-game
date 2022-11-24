@@ -19,3 +19,5 @@ MonoBehaviour:
   Disappears: 1
   Time: 1
   friendlyness: 4
+  Description: You have 1 second to catch this tile and it increases your remaining
+    time with 3 seconds.

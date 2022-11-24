@@ -68,6 +68,11 @@ public class MenuController : MonoBehaviour
         InputTimeTrialLength.SetActive(ToggleTimeTrial.isOn);
     }
 
+    public void ClickHelp()
+    {
+        SceneManager.LoadScene(2);
+    }
+
     public void StoreTimeData()
     {
         TrialLength = int.Parse(InputTimeTrialLength.GetComponent<TMP_InputField>().text);

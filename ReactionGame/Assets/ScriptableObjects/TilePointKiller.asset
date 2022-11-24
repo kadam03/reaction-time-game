@@ -19,3 +19,5 @@ MonoBehaviour:
   Disappears: 1
   Time: 1.2
   friendlyness: 1
+  Description: If you can't catch it in 1.2 seconds you will loose 2 points! By catching
+    it you will be rewarded with 3 points.
