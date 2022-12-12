@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     public TMP_Text TextGameOverResult = null;
     public TMP_Text TextBestReactionResult = null;
     public TMP_Text TextAVGReactionResult = null;
+    public TMP_Text TextGameOver = null;
     public RTimer GameTimer = null;
     public bool IsTimeTrial = true;
     public bool IsPaused = false;
@@ -25,8 +26,10 @@ public class GameController : MonoBehaviour
     public GameObject PauseShader = null;
     public GameObject SpawnArea = null;
     public GameObject GameCanvas = null;
-    public List<TileData> TileTypes = new List<TileData>();
-    public GameObject[] Positions = new GameObject[5];
+    public GameObject BtnNextLevel = null;
+    public List<TileData> TileTypes = new();
+    public List<LevelData> Levels = new();
+    //public GameObject[] Positions = new GameObject[5];
 
     Tile currentTile;
     bool tileVisible;
@@ -34,6 +37,7 @@ public class GameController : MonoBehaviour
     float bestReaction = Mathf.Infinity;
     int numberOfCatched = 0;
     float avgReaction = 0;
+    int currentLevel = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -69,6 +73,7 @@ public class GameController : MonoBehaviour
 
     void ResetGame()
     {
+        LoadLevel(Levels[currentLevel]);
         points = 0;
         TextPoints.text = 0.ToString();
         tileVisible = false;
@@ -83,6 +88,18 @@ public class GameController : MonoBehaviour
         GameOverMenu.SetActive(false);
         numberOfCatched = 0;
         avgReaction = 0;
+    }
+
+    void LoadLevel(LevelData levelData)
+    {
+        IsTimeTrial = levelData.IsTimeTrial;
+        StartTime = levelData.StartTime;
+        TileTypes = levelData.Tiles;
+    }
+    public void NextLevel()
+    {
+        currentLevel++;
+        ResetGame();
     }
 
     public void PauseGame()
@@ -188,6 +205,17 @@ public class GameController : MonoBehaviour
 
     void GameOver()
     {
+        if (points < Levels[currentLevel].LevelPassPoints)
+        {
+            TextGameOver.text = "Game Over!";
+            BtnNextLevel.SetActive(false);
+        }
+        else
+        {
+            TextGameOver.text = "Level Done!";
+            BtnNextLevel.SetActive(true);
+        }
+
         TextTimer.text = "00:00.00";
         TextBestReactionResult.text = TextBestReaction.text;
         TextAVGReactionResult.text = string.Format("{0:0.00}", avgReaction) + "s";
