@@ -26,7 +26,7 @@ public class MenuController : MonoBehaviour
     {
         tempDtime = 0;
         ToggleTimeTrial.isOn = IsTimeTrial;
-        InputTimeTrialLength.SetActive(ToggleTimeTrial.isOn);
+        //InputTimeTrialLength.SetActive(ToggleTimeTrial.isOn);
         TrialLength = int.Parse(InputTimeTrialLength.GetComponent<TMP_InputField>().text);
         TextVersion.text = "v" + Application.version;
     }
@@ -42,10 +42,16 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    public void StartNewGame()
+    //public void StartNewGame()
+    //{
+    //    LevelsController.Instance.LoadLevel(0);
+    //    //GameController.StartTime = TrialLength;
+    //    //SceneManager.LoadScene(1);
+    //}
+
+    public void ViewLevels()
     {
-        GameController.StartTime = TrialLength;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(3);
     }
 
     public void Quit()

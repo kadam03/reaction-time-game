@@ -26,30 +26,33 @@ public class LevelData : ScriptableObject
     public int GoldPassPoints;
     public List<TileData> Tiles = new List<TileData>();
 
-    public int FinishedPoints;
+    public int LevelHighScore;
+    public bool IsLevelPassed;
     public PassLevels PassLevel;
 
     public bool CalculateLevelPass(int points)
     {
-        FinishedPoints = points;
-        if (FinishedPoints < LevelPassPoints)
+        LevelHighScore = points;
+        if (LevelHighScore < LevelPassPoints)
         {
+            IsLevelPassed = false;
             return false;
         }
 
-        if (IsInRange(FinishedPoints, LevelPassPoints, SilverPassPoints))
+        if (IsInRange(LevelHighScore, LevelPassPoints, SilverPassPoints))
         {
             PassLevel = PassLevels.Bronze;
         }
-        else if (IsInRange(FinishedPoints, SilverPassPoints, GoldPassPoints))
+        else if (IsInRange(LevelHighScore, SilverPassPoints, GoldPassPoints))
         {
             PassLevel = PassLevels.Silver;
         }
-        else if (IsInRange(FinishedPoints, GoldPassPoints, 999999999))
+        else if (IsInRange(LevelHighScore, GoldPassPoints, 999999999))
         {
             PassLevel = PassLevels.Gold;
         }
 
+        IsLevelPassed = true;
         return true;
     }
 

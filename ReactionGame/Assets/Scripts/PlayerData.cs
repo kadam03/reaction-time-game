@@ -6,5 +6,7 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     public string PlayerName = "";
-    //public int 
+    public int ReachedLevel;
+    public float BestReaction;
+    public float BestAverageReaction;
 }
