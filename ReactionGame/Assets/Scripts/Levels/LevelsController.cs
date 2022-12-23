@@ -59,9 +59,10 @@ public class LevelsController : MonoBehaviour
             if (Levels[i].IsLevelPassed)
             {
                 newTile.transform.Find("Thick").gameObject.SetActive(true);
+                //newTile.GetComponent<Image>().color = Color.black;
                 newTile.GetComponent<Image>().color = Levels[i].ButtonColor;
             }
-            Levels[i].LevelButton = newTile;
+            //Levels[i].LevelButton = newTile;
         }
     }
 

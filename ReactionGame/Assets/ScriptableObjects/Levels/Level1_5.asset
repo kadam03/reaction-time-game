@@ -10,20 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a8d2be4a5693ea469f5316e7e4ab88c, type: 3}
-  m_Name: Level3
+  m_Name: Level1_5
   m_EditorClassIdentifier: 
-  Level: 3
+  Level: 5
   IsTimeTrial: 1
-  StartTime: 20
-  LevelPassPoints: 25
-  SilverPassPoints: 35
-  GoldPassPoints: 45
+  StartTime: 22
+  LevelPassPoints: 20
+  SilverPassPoints: 40
+  GoldPassPoints: 60
   Tiles:
   - {fileID: 11400000, guid: 32337c9f61d2588449802c1a6163c1cd, type: 2}
-  - {fileID: 11400000, guid: edf472ff011259046bf404e4a883d1fc, type: 2}
-  - {fileID: 11400000, guid: 9636f786a7e98e44c853cad153fb6031, type: 2}
-  LevelHighScore: 22
-  IsLevelPassed: 1
+  LevelHighScore: 0
+  IsLevelPassed: 0
   PassLevel: 0
   LevelButton: {fileID: 0}
-  ButtonColor: {r: 0.6415094, g: 0.383829, b: 0, a: 1}
+  ButtonColor: {r: 1, g: 1, b: 1, a: 255}

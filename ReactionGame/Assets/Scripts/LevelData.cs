@@ -31,7 +31,8 @@ public class LevelData : ScriptableObject
     public bool IsLevelPassed;
     public PassLevels PassLevel;
     public GameObject LevelButton;
-    public Color ButtonColor = Color.white;
+    //public Color ButtonColor = Color.white;
+    public Color ButtonColor;
 
     public bool CalculateLevelPass(int points)
     {
@@ -45,12 +46,12 @@ public class LevelData : ScriptableObject
         if (IsInRange(LevelHighScore, LevelPassPoints, SilverPassPoints))
         {
             PassLevel = PassLevels.Bronze;
-            ButtonColor = new Color(191, 11, 0, 255);
+            ButtonColor = new Color(0.7372549f, 0.4588235f, 0, 1);
         }
         else if (IsInRange(LevelHighScore, SilverPassPoints, GoldPassPoints))
         {
             PassLevel = PassLevels.Silver;
-            ButtonColor = new Color(122, 129, 130, 255);
+            ButtonColor = Color.gray;
         }
         else if (IsInRange(LevelHighScore, GoldPassPoints, 999999999))
         {
