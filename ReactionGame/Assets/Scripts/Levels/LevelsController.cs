@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -16,22 +15,33 @@ public class LevelsController : MonoBehaviour
     public List<LevelData> Levels = new();
 
     int stepSize = 140;
-    List<GameObject> levelTiles = new();
-
-    //private void Awake()
-    //{
-    //    Instance = this;
-    //}
+    //readonly List<GameObject> levelTiles = new();
 
     // Start is called before the first frame update
     void Start()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
+        InstLvlButtons();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    private void InstLvlButtons()
     {
         int row = 0;
         int col = 0;
         float scaleX = LevelCanvas.transform.localScale.x;
         Vector3 startPos = ReferenceTile.transform.position;
 
-        for (int i = 1; i < 26; i++)
+        for (int i = 0; i < Levels.Count; i++)
         {
             GameObject newTile = Instantiate(ReferenceTile, startPos + (new Vector3(stepSize * col, stepSize * row) * scaleX), Quaternion.identity);
             newTile.SetActive(true);
@@ -44,16 +54,15 @@ public class LevelsController : MonoBehaviour
                 row--;
             }
 
-            newTile.GetComponent<Button>().GetComponentInChildren<TMP_Text>().text = i.ToString();
+            newTile.GetComponent<Button>().GetComponentInChildren<TMP_Text>().text = (i + 1).ToString();
             newTile.GetComponent<Button>().onClick.AddListener(delegate { LoadSelectedLevel(newTile); });
-            levelTiles.Add(newTile);
+            if (Levels[i].IsLevelPassed)
+            {
+                newTile.transform.Find("Thick").gameObject.SetActive(true);
+                newTile.GetComponent<Image>().color = Levels[i].ButtonColor;
+            }
+            Levels[i].LevelButton = newTile;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void BackToMenu()
@@ -72,7 +81,4 @@ public class LevelsController : MonoBehaviour
         int level = int.Parse(go.GetComponent<Button>().GetComponentInChildren<TMP_Text>().text);
         LoadLevel(level - 1); // - 1 because of indexing (the level stores the real level number)
     }
-
-
-
 }

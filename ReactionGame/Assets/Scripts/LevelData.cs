@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "Level", menuName = "ReactionGame/Level")]
 public class LevelData : ScriptableObject
@@ -29,6 +30,8 @@ public class LevelData : ScriptableObject
     public int LevelHighScore;
     public bool IsLevelPassed;
     public PassLevels PassLevel;
+    public GameObject LevelButton;
+    public Color ButtonColor = Color.white;
 
     public bool CalculateLevelPass(int points)
     {
@@ -42,17 +45,21 @@ public class LevelData : ScriptableObject
         if (IsInRange(LevelHighScore, LevelPassPoints, SilverPassPoints))
         {
             PassLevel = PassLevels.Bronze;
+            ButtonColor = new Color(191, 11, 0, 255);
         }
         else if (IsInRange(LevelHighScore, SilverPassPoints, GoldPassPoints))
         {
             PassLevel = PassLevels.Silver;
+            ButtonColor = new Color(122, 129, 130, 255);
         }
         else if (IsInRange(LevelHighScore, GoldPassPoints, 999999999))
         {
             PassLevel = PassLevels.Gold;
+            ButtonColor = Color.yellow;
         }
 
         IsLevelPassed = true;
+        PlayerData.Instance.ReachedLevel = Level;
         return true;
     }
 

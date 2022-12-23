@@ -24,9 +24,9 @@ public class MenuController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerData.Instance = new PlayerData();
         tempDtime = 0;
         ToggleTimeTrial.isOn = IsTimeTrial;
-        //InputTimeTrialLength.SetActive(ToggleTimeTrial.isOn);
         TrialLength = int.Parse(InputTimeTrialLength.GetComponent<TMP_InputField>().text);
         TextVersion.text = "v" + Application.version;
     }
@@ -41,13 +41,6 @@ public class MenuController : MonoBehaviour
             tempDtime = 0;
         }
     }
-
-    //public void StartNewGame()
-    //{
-    //    LevelsController.Instance.LoadLevel(0);
-    //    //GameController.StartTime = TrialLength;
-    //    //SceneManager.LoadScene(1);
-    //}
 
     public void ViewLevels()
     {

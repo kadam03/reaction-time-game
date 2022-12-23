@@ -9,7 +9,6 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance = null;
     public static int StartTime = 20; // todo: set based on the menu setting
-    //public static int TargetLevel = 0;
     public static LevelData CurrentLevelData = null;
     public TMP_Text TextTimer = null;
     public TMP_Text TextPoints = null;
@@ -43,6 +42,10 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Instance = this;
+        if (PlayerData.Instance == null)
+        {
+            PlayerData.Instance = new PlayerData();
+        }
         System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
         ResetGame();
         IsTimeTrial = MenuController.IsTimeTrial;
@@ -205,6 +208,8 @@ public class GameController : MonoBehaviour
 
     void GameOver()
     {
+        PlayerData.Instance.UpdateRactionResults(bestReaction, avgReaction);
+
         if (CurrentLevelData.CalculateLevelPass(points))
         {
             TextGameOver.text = "Level Done!";
