@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: TilePointKiller
   m_EditorClassIdentifier: 
   TileName: Treasure
-  RewardValue: 3
-  MistakeValue: 2
+  RewardValue: 2
+  MistakeValue: 1
   TileColor: {r: 0.7529412, g: 0.50855416, b: 0, a: 1}
   Disappears: 1
   Time: 1.2
   friendlyness: 1
-  Description: If you can't catch it in 1.2 seconds you will loose 2 points! By catching
-    it you will be rewarded with 3 points.
+  Description: If you can't catch it in 1.2 seconds you will loose 1 point! By catching
+    it you will be rewarded with 2 points.

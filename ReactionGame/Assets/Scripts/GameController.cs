@@ -9,12 +9,15 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance = null;
     public static int StartTime = 20; // todo: set based on the menu setting
+    public static LevelData CurrentLevelData = null;
     public TMP_Text TextTimer = null;
     public TMP_Text TextPoints = null;
     public TMP_Text TextBestReaction = null;
     public TMP_Text TextGameOverResult = null;
     public TMP_Text TextBestReactionResult = null;
     public TMP_Text TextAVGReactionResult = null;
+    public TMP_Text TextGameOver = null;
+    public TMP_Text TextLevel = null;
     public RTimer GameTimer = null;
     public bool IsTimeTrial = true;
     public bool IsPaused = false;
@@ -25,8 +28,8 @@ public class GameController : MonoBehaviour
     public GameObject PauseShader = null;
     public GameObject SpawnArea = null;
     public GameObject GameCanvas = null;
-    public List<TileData> TileTypes = new List<TileData>();
-    public GameObject[] Positions = new GameObject[5];
+    public GameObject BtnNextLevel = null;
+    public List<TileData> TileTypes = new();
 
     Tile currentTile;
     bool tileVisible;
@@ -39,6 +42,10 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Instance = this;
+        if (PlayerData.Instance == null)
+        {
+            PlayerData.Instance = new PlayerData();
+        }
         System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
         ResetGame();
         IsTimeTrial = MenuController.IsTimeTrial;
@@ -69,6 +76,7 @@ public class GameController : MonoBehaviour
 
     void ResetGame()
     {
+        LoadLevel(CurrentLevelData);
         points = 0;
         TextPoints.text = 0.ToString();
         tileVisible = false;
@@ -83,6 +91,18 @@ public class GameController : MonoBehaviour
         GameOverMenu.SetActive(false);
         numberOfCatched = 0;
         avgReaction = 0;
+    }
+
+    void LoadLevel(LevelData levelData)
+    {
+        IsTimeTrial = levelData.IsTimeTrial;
+        StartTime = levelData.StartTime;
+        TileTypes = levelData.Tiles;
+        TextLevel.text = levelData.Level.ToString();
+    }
+    public void NextLevel()
+    {
+        LevelsController.Instance.LoadLevel(CurrentLevelData.Level);
     }
 
     public void PauseGame()
@@ -188,6 +208,19 @@ public class GameController : MonoBehaviour
 
     void GameOver()
     {
+        PlayerData.Instance.UpdateRactionResults(bestReaction, avgReaction);
+
+        if (CurrentLevelData.CalculateLevelPass(points))
+        {
+            TextGameOver.text = "Level Done!";
+            BtnNextLevel.SetActive(true);
+        }
+        else
+        {
+            TextGameOver.text = "Game Over!";
+            BtnNextLevel.SetActive(false);
+        }
+
         TextTimer.text = "00:00.00";
         TextBestReactionResult.text = TextBestReaction.text;
         TextAVGReactionResult.text = string.Format("{0:0.00}", avgReaction) + "s";
@@ -196,11 +229,11 @@ public class GameController : MonoBehaviour
         Destroy(currentTile.gameObject);
         TextGameOverResult.text = points.ToString();
     }
-    void KillTile(GameObject go)
+    void KillTile(GameObject gO)
     {
         TextPoints.text = points.ToString();
         tileVisible = false;
-        Destroy(go);
+        Destroy(gO);
     }
 
     void CalcAverageReact()
