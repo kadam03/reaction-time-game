@@ -16,8 +16,8 @@ MonoBehaviour:
   IsTimeTrial: 1
   StartTime: 30
   LevelPassPoints: 28
-  SilverPassPoints: 40
-  GoldPassPoints: 52
+  SilverPassPoints: 35
+  GoldPassPoints: 40
   Tiles:
   - {fileID: 11400000, guid: 32337c9f61d2588449802c1a6163c1cd, type: 2}
   LevelHighScore: 0

@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72d96a9b8c30f31428f4799d3bba7e49, type: 3}
-  m_Name: TileTimeKiller
+  m_Name: TileExtraPoint
   m_EditorClassIdentifier: 
-  TileName: Bomb
-  RewardValue: 1
-  MistakeValue: 2
-  TileColor: {r: 0.7075472, g: 0.05043632, b: 0, a: 1}
-  Disappears: 0
-  Time: 0
-  friendlyness: 3
-  Description: If you catch this tile that will reduce your remaining time by 2 seconds.
-    Tap anywhere on the map to make it disappear!
+  TileName: Gem
+  RewardValue: 2
+  MistakeValue: 0
+  TileColor: {r: 0.7735849, g: 0, b: 0.7038105, a: 1}
+  Disappears: 1
+  Time: 1
+  friendlyness: 0
+  Description: Catch this tile before it disappears and it will reward you with 2
+    points!

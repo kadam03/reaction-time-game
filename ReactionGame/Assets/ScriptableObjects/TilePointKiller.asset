@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72d96a9b8c30f31428f4799d3bba7e49, type: 3}
   m_Name: TilePointKiller
   m_EditorClassIdentifier: 
-  TileName: Treasure
+  TileName: Sand
   RewardValue: 2
   MistakeValue: 1
   TileColor: {r: 0.7529412, g: 0.50855416, b: 0, a: 1}

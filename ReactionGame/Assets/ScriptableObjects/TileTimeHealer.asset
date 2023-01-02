@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: TileTimeHealer
   m_EditorClassIdentifier: 
   TileName: Watch
-  RewardValue: 3
+  RewardValue: 1
   MistakeValue: 0
-  TileColor: {r: 0, g: 0.012052501, b: 0.8301887, a: 1}
+  TileColor: {r: 0.11698109, g: 0.12947656, b: 1, a: 1}
   Disappears: 1
   Time: 1
   friendlyness: 4
   Description: You have 1 second to catch this tile and it increases your remaining
-    time with 3 seconds.
+    time with 1 seconds.

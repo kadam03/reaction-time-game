@@ -15,7 +15,6 @@ public class LevelsController : MonoBehaviour
     public List<LevelData> Levels = new();
 
     int stepSize = 140;
-    //readonly List<GameObject> levelTiles = new();
 
     // Start is called before the first frame update
     void Start()

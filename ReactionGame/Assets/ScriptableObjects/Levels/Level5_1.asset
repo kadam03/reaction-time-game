@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Level: 21
   IsTimeTrial: 1
-  StartTime: 15
+  StartTime: 25
   LevelPassPoints: 25
   SilverPassPoints: 35
   GoldPassPoints: 45
@@ -23,6 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: edf472ff011259046bf404e4a883d1fc, type: 2}
   - {fileID: 11400000, guid: 9636f786a7e98e44c853cad153fb6031, type: 2}
   - {fileID: 11400000, guid: c947828a6419278459bba2d5849d94e9, type: 2}
+  - {fileID: 11400000, guid: a204bbe9a7fe5454da93507ee08ad617, type: 2}
   LevelHighScore: 0
   IsLevelPassed: 0
   PassLevel: 0

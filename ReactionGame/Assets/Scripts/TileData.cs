@@ -23,6 +23,7 @@ public class TileData : ScriptableObject
     public bool Disappears;
     public float Time;
     public Friendlyness friendlyness;
+    public float Weight;
     [TextArea(3, 5)]
     public string Description;
 
