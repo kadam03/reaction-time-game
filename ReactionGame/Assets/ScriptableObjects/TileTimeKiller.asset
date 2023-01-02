@@ -19,5 +19,6 @@ MonoBehaviour:
   Disappears: 0
   Time: 0
   friendlyness: 3
+  Weight: 20
   Description: If you catch this tile that will reduce your remaining time by 2 seconds.
     Tap anywhere on the map to make it disappear!

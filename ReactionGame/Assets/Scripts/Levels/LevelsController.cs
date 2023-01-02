@@ -1,7 +1,9 @@
 using Mono.Cecil.Cil;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,6 +17,7 @@ public class LevelsController : MonoBehaviour
     public List<LevelData> Levels = new();
 
     int stepSize = 140;
+    List<string> tileSet = new();
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +26,7 @@ public class LevelsController : MonoBehaviour
         {
             Instance = this;
         }
-
+        tileSet.Clear();
         InstLvlButtons();
     }
 
@@ -58,10 +61,8 @@ public class LevelsController : MonoBehaviour
             if (Levels[i].IsLevelPassed)
             {
                 newTile.transform.Find("Thick").gameObject.SetActive(true);
-                //newTile.GetComponent<Image>().color = Color.black;
                 newTile.GetComponent<Image>().color = Levels[i].ButtonColor;
             }
-            //Levels[i].LevelButton = newTile;
         }
     }
 
@@ -80,5 +81,23 @@ public class LevelsController : MonoBehaviour
     {
         int level = int.Parse(go.GetComponent<Button>().GetComponentInChildren<TMP_Text>().text);
         LoadLevel(level - 1); // - 1 because of indexing (the level stores the real level number)
+    }
+
+    // Lame weighted random generator, might be improved in the future
+    public TileData WeightedRandomTile(LevelData ld)
+    {
+        if (tileSet.Count <= 0)
+        {
+            foreach (TileData tile in ld.Tiles)
+            {
+                for (int i = 0; i < tile.Weight; i++)
+                {
+                    tileSet.Add(tile.TileName);
+                }
+            }
+        }
+
+        int place = Random.Range(0, tileSet.Count);
+        return ld.Tiles.First(x => x.TileName.Equals(tileSet[place]));
     }
 }

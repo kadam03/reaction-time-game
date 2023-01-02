@@ -44,7 +44,7 @@ public class MenuController : MonoBehaviour
 
     public void ViewLevels()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(2);
     }
 
     public void Quit()
@@ -69,7 +69,7 @@ public class MenuController : MonoBehaviour
 
     public void ClickHelp()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
     }
 
     public void StoreTimeData()

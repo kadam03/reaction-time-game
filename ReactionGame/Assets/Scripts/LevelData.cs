@@ -31,7 +31,6 @@ public class LevelData : ScriptableObject
     public bool IsLevelPassed;
     public PassLevels PassLevel;
     public GameObject LevelButton;
-    //public Color ButtonColor = Color.white;
     public Color ButtonColor;
 
     public bool CalculateLevelPass(int points)

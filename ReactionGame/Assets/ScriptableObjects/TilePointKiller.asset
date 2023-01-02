@@ -19,5 +19,6 @@ MonoBehaviour:
   Disappears: 1
   Time: 1.2
   friendlyness: 1
+  Weight: 30
   Description: If you can't catch it in 1.2 seconds you will loose 1 point! By catching
     it you will be rewarded with 2 points.

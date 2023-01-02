@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour
     public GameObject SpawnArea = null;
     public GameObject GameCanvas = null;
     public GameObject BtnNextLevel = null;
-    public List<TileData> TileTypes = new();
+    //public List<TileData> TileTypes = new();
 
     Tile currentTile;
     bool tileVisible;
@@ -97,7 +97,7 @@ public class GameController : MonoBehaviour
     {
         IsTimeTrial = levelData.IsTimeTrial;
         StartTime = levelData.StartTime;
-        TileTypes = levelData.Tiles;
+        //TileTypes = levelData.Tiles;
         TextLevel.text = levelData.Level.ToString();
     }
     public void NextLevel()
@@ -268,7 +268,8 @@ public class GameController : MonoBehaviour
             pos.y = Random.Range(rt.rect.yMin, rt.rect.yMax) * refScaleY;
 
             currentTile = Instantiate(TilePrefab, pos + rt.transform.position, Quaternion.identity).GetComponent<Tile>();
-            currentTile.tileData = TileTypes[Random.Range(0, TileTypes.Count)];
+            //currentTile.tileData = CurrentLevelData.Tiles[Random.Range(0, CurrentLevelData.Tiles.Count)];
+            currentTile.tileData = LevelsController.Instance.WeightedRandomTile(CurrentLevelData);
             currentTile.transform.SetParent(GameCanvas.transform);
 
             currentTile.transform.localScale = new Vector3(currentTile.GetComponent<RectTransform>().localScale.x * refScaleX, currentTile.GetComponent<RectTransform>().localScale.y * refScaleY, GameCanvas.GetComponent<RectTransform>().localScale.z);
@@ -276,4 +277,6 @@ public class GameController : MonoBehaviour
             tileVisible = true;
         }
     }
+
+    
 }

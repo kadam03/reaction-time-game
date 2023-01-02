@@ -19,4 +19,5 @@ MonoBehaviour:
   Disappears: 0
   Time: 0
   friendlyness: 0
+  Weight: 100
   Description: Catching this tile rewards you with 1 point.

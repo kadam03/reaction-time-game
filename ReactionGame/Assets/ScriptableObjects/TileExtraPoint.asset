@@ -19,5 +19,6 @@ MonoBehaviour:
   Disappears: 1
   Time: 1
   friendlyness: 0
+  Weight: 30
   Description: Catch this tile before it disappears and it will reward you with 2
     points!
