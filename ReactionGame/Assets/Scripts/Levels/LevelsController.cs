@@ -49,20 +49,30 @@ public class LevelsController : MonoBehaviour
             newTile.SetActive(true);
             newTile.transform.SetParent(LevelCanvas.transform);
             newTile.transform.localScale = new Vector3(1, 1, 1);
-            col++;
-            if (col > 4)
-            {
-                col = 0;
-                row--;
-            }
-
             newTile.GetComponent<Button>().GetComponentInChildren<TMP_Text>().text = (i + 1).ToString();
             newTile.GetComponent<Button>().onClick.AddListener(delegate { LoadSelectedLevel(newTile); });
+            newTile.GetComponent<Image>().color = Levels[i].ButtonColor;
+
             if (Levels[i].IsLevelPassed)
             {
                 newTile.transform.Find("Thick").gameObject.SetActive(true);
-                newTile.GetComponent<Image>().color = Levels[i].ButtonColor;
             }
+            else if (i > 0 && !Levels[i - 1].IsLevelPassed)
+            {
+                newTile.GetComponent<Image>().color = Color.black;
+            }
+
+            StepTileLocation(ref col, ref row);
+        }
+    }
+
+    private void StepTileLocation(ref int col, ref int row)
+    {
+        col++;
+        if (col > 4)
+        {
+            col = 0;
+            row--;
         }
     }
 
@@ -73,17 +83,20 @@ public class LevelsController : MonoBehaviour
 
     public void LoadLevel(int level)
     {
-        GameController.CurrentLevelData = Levels[level];
-        SceneManager.LoadScene(1);
+        if (level == 1 || Levels[level - 2].IsLevelPassed)
+        {
+            GameController.CurrentLevelData = Levels[level - 1]; // - 1 because of indexing (the level stores the real level number)
+            SceneManager.LoadScene(1);
+        }
     }
 
     public void LoadSelectedLevel(GameObject go)
     {
         int level = int.Parse(go.GetComponent<Button>().GetComponentInChildren<TMP_Text>().text);
-        LoadLevel(level - 1); // - 1 because of indexing (the level stores the real level number)
+        LoadLevel(level);
     }
 
-    // Lame weighted random generator, might be improved in the future
+    // Lame weighted random generator, might be improved in the future (or not, like evething else like this :D)
     public TileData WeightedRandomTile(LevelData ld)
     {
         if (tileSet.Count <= 0)
