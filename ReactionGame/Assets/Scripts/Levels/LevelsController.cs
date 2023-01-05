@@ -83,7 +83,7 @@ public class LevelsController : MonoBehaviour
 
     public void LoadLevel(int level)
     {
-        if (level == 1 || Levels[level - 2].IsLevelPassed)
+        if (level == 1 || Levels[level - 2].IsLevelPassed) // - 1 because it is a level identifier number and -1 more because we want to check whether the previous level is passed --> -2
         {
             GameController.CurrentLevelData = Levels[level - 1]; // - 1 because of indexing (the level stores the real level number)
             SceneManager.LoadScene(1);

@@ -60,7 +60,7 @@ public class HelpController : MonoBehaviour
 
     void CreateTileDescription(string desc, Vector3 refPos)
     {
-        TMP_Text description = Instantiate(SampleText, new Vector3(140, 0) + refPos, Quaternion.identity).GetComponent<TMP_Text>();
+        TMP_Text description = Instantiate(SampleText, new Vector3(130, 0) + refPos, Quaternion.identity).GetComponent<TMP_Text>();
         description.text = desc;
         description.gameObject.SetActive(true);
         description.transform.SetParent(HelpCanvas.transform);

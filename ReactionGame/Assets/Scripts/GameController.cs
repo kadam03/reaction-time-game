@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     public TMP_Text TextAVGReactionResult = null;
     public TMP_Text TextGameOver = null;
     public TMP_Text TextLevel = null;
+    public TMP_Text TextCountDown = null;
     public RTimer GameTimer = null;
     public bool IsTimeTrial = true;
     public bool IsPaused = false;
@@ -29,14 +30,16 @@ public class GameController : MonoBehaviour
     public GameObject SpawnArea = null;
     public GameObject GameCanvas = null;
     public GameObject BtnNextLevel = null;
-    //public List<TileData> TileTypes = new();
 
     Tile currentTile;
     bool tileVisible;
+    bool isCountDown;
     int points = 0;
     float bestReaction = Mathf.Infinity;
-    int numberOfCatched = 0;
     float avgReaction = 0;
+    int numberOfCatched = 0;
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -59,6 +62,20 @@ public class GameController : MonoBehaviour
             return;
         }
 
+        if (isCountDown)
+        {
+            TextCountDown.text = GameTimer.RemainSeconds.ToString();
+            if (GameTimer.RemainTime <= 1)
+            {
+                isCountDown = false;
+                TextCountDown.gameObject.SetActive(false);
+                GameTimer.ResetTimer(StartTime);
+                GameTimer.StartTimer();
+            }
+
+            return;
+        }
+
         if (IsTimeTrial && GameTimer.RemainTime <= 0)
         {
             GameOver();
@@ -76,12 +93,11 @@ public class GameController : MonoBehaviour
 
     void ResetGame()
     {
+        isCountDown = true;
         LoadLevel(CurrentLevelData);
         points = 0;
         TextPoints.text = 0.ToString();
         tileVisible = false;
-        GameTimer.ResetTimer(StartTime);
-        GameTimer.StartTimer();
         IsPaused = false;
         Time.timeScale = IsPaused ? 0 : 1;
         bestReaction = Mathf.Infinity;
@@ -91,18 +107,29 @@ public class GameController : MonoBehaviour
         GameOverMenu.SetActive(false);
         numberOfCatched = 0;
         avgReaction = 0;
+        CountDown();
+    }
+
+    private void CountDown()
+    {
+        GameTimer.ResetTimer(4);
+        GameTimer.StartTimer();
+        TextCountDown.gameObject.SetActive(true);
     }
 
     void LoadLevel(LevelData levelData)
     {
         IsTimeTrial = levelData.IsTimeTrial;
         StartTime = levelData.StartTime;
-        //TileTypes = levelData.Tiles;
         TextLevel.text = levelData.Level.ToString();
     }
     public void NextLevel()
     {
-        LevelsController.Instance.LoadLevel(CurrentLevelData.Level);
+        if (CurrentLevelData.Level < LevelsController.Instance.Levels.Count)
+        {
+            LevelsController.Instance.LoadLevel(CurrentLevelData.Level + 1);
+        }
+
     }
 
     public void PauseGame()
@@ -268,7 +295,6 @@ public class GameController : MonoBehaviour
             pos.y = Random.Range(rt.rect.yMin, rt.rect.yMax) * refScaleY;
 
             currentTile = Instantiate(TilePrefab, pos + rt.transform.position, Quaternion.identity).GetComponent<Tile>();
-            //currentTile.tileData = CurrentLevelData.Tiles[Random.Range(0, CurrentLevelData.Tiles.Count)];
             currentTile.tileData = LevelsController.Instance.WeightedRandomTile(CurrentLevelData);
             currentTile.transform.SetParent(GameCanvas.transform);
 
