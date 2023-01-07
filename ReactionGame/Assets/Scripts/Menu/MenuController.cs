@@ -24,7 +24,8 @@ public class MenuController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerData.Instance = new PlayerData();
+        PlayerData.Instance = ScriptableObject.CreateInstance<PlayerData>();
+        //LevelsController.Instance = ScriptableObject.CreateInstance<LevelsController>();
         tempDtime = 0;
         ToggleTimeTrial.isOn = IsTimeTrial;
         TrialLength = int.Parse(InputTimeTrialLength.GetComponent<TMP_InputField>().text);

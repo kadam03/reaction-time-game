@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Windows;
 
 public class LevelsController : MonoBehaviour
 {
@@ -112,5 +113,14 @@ public class LevelsController : MonoBehaviour
 
         int place = Random.Range(0, tileSet.Count);
         return ld.Tiles.First(x => x.TileName.Equals(tileSet[place]));
+    }
+
+    public void SaveLevelData()
+    {
+        //string levelJSon = JsonUtility.ToJson(Levels);
+        //Debug.Log(levelJSon);
+        //JsonSerializer serialazier = new JsonSerializer();
+        //string json = JsonConvert.SerializeObject(Levels);
+        //Debug.Log(json);
     }
 }
