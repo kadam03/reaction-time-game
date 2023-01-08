@@ -1,23 +1,25 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.Windows;
 
-[Serializable]
 public class ProgressController
 {
-    public string ID;
-    public int ReachedLevel;
-    public float BestReaction;
-    public List<LevelProgress> LevelProgresses;
+    public ProgressData ProgData;
+
+    private string progressFileName = "progress.json";
 
     public void SaveGame(PlayerData pData, List<LevelData> lData)
     {
-        ReachedLevel = pData.ReachedLevel;
-        BestReaction = pData.BestReaction;
-        LevelProgresses = new();
+        ProgData = new();
+        ProgData.ReachedLevel = pData.ReachedLevel;
+        ProgData.BestReaction = pData.BestReaction;
+        ProgData.LevelProgresses = new();
 
         foreach (var level in lData)
         {
@@ -26,7 +28,7 @@ public class ProgressController
                 break;
             }
 
-            LevelProgresses.Add(new LevelProgress
+            ProgData.LevelProgresses.Add(new LevelProgress
             {
                 LevelID = level.Level,
                 MaxPoints = level.LevelHighScore,
@@ -34,12 +36,50 @@ public class ProgressController
             });
         }
 
-        string json = JsonConvert.SerializeObject(this);
-        Debug.Log(json);
+        SaveDataFile(ProgData.SerializeToJson());
     }
 
-    public static void LoadGame()
+    private void SaveDataFile(string json)
     {
-
+        string filePath = Application.persistentDataPath + @"\" + progressFileName;
+        if (System.IO.File.Exists(filePath))
+        {
+            System.IO.File.Delete(filePath);
+        }
+        
+        System.IO.File.WriteAllText(filePath, json);
     }
+
+    public void LoadGame(PlayerData pData, List<LevelData> lData)
+    {
+        string filePath = Application.persistentDataPath + @"\" + progressFileName;
+        if (System.IO.File.Exists(filePath))
+        {
+            using (StreamReader reader = System.IO.File.OpenText(filePath))
+            {
+                JsonSerializer ser = new();
+                ProgData = (ProgressData)ser.Deserialize(reader, typeof(ProgressData));
+            }
+
+            SetPlayerData(pData);
+
+        }
+    }
+
+    private void SetPlayerData(PlayerData pData)
+    {
+        pData.PlayerName = ProgData.PlayerName;
+        pData.ReachedLevel = ProgData.ReachedLevel;
+        pData.BestReaction = ProgData.BestReaction;
+    }
+
+    private void SetLevelData(List<LevelData> lData)
+    {
+        //foreach (var item in collection)
+        //{
+                //itt
+        //}
+    }
+
+
 }
