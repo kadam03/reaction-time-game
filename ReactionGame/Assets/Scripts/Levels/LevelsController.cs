@@ -20,15 +20,22 @@ public class LevelsController : MonoBehaviour
     int stepSize = 140;
     List<string> tileSet = new();
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
         }
+        ProgressController.Instance.LoadLevelData(Levels);
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
         tileSet.Clear();
         InstLvlButtons();
+        
     }
 
     // Update is called once per frame

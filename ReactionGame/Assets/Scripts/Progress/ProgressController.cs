@@ -4,15 +4,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.Windows;
 
 public class ProgressController
 {
+    public static ProgressController Instance;
     public ProgressData ProgData;
 
     private string progressFileName = "progress.json";
+
+    public ProgressController()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
     public void SaveGame(PlayerData pData, List<LevelData> lData)
     {
@@ -50,7 +60,7 @@ public class ProgressController
         System.IO.File.WriteAllText(filePath, json);
     }
 
-    public void LoadGame(PlayerData pData, List<LevelData> lData)
+    public void LoadGameData()
     {
         string filePath = Application.persistentDataPath + @"\" + progressFileName;
         if (System.IO.File.Exists(filePath))
@@ -60,10 +70,12 @@ public class ProgressController
                 JsonSerializer ser = new();
                 ProgData = (ProgressData)ser.Deserialize(reader, typeof(ProgressData));
             }
-
-            SetPlayerData(pData);
-
         }
+    }
+
+    public void LoadPlayerData(PlayerData pdata)
+    {
+        SetPlayerData(pdata);
     }
 
     private void SetPlayerData(PlayerData pData)
@@ -73,12 +85,18 @@ public class ProgressController
         pData.BestReaction = ProgData.BestReaction;
     }
 
+    public void LoadLevelData(List<LevelData> lData)
+    {
+        SetLevelData(lData);
+    }
+
     private void SetLevelData(List<LevelData> lData)
     {
-        //foreach (var item in collection)
-        //{
-                //itt
-        //}
+        foreach (var level in ProgData.LevelProgresses)
+        {
+            lData[level.LevelID - 1].BestReaction = level.BestReaction;
+            lData[level.LevelID - 1].CalculateLevelPass(level.MaxPoints);
+        }
     }
 
 

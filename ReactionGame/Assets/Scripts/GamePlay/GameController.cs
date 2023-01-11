@@ -311,7 +311,7 @@ public class GameController : MonoBehaviour
     void SaveProgress()
     {
         CurrentLevelData.BestReaction = PlayerData.Instance.BestReaction;
-        ProgressController pCont = new();
-        pCont.SaveGame(PlayerData.Instance, LevelsController.Instance.Levels);
+        //ProgressController pCont = new();
+        ProgressController.Instance.SaveGame(PlayerData.Instance, LevelsController.Instance.Levels);
     }
 }

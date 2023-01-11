@@ -18,22 +18,33 @@ public class MenuController : MonoBehaviour
     public static bool IsTimeTrial = true;
     public int TrialLength;
 
-    ProgressController pController;
+    //ProgressController pController;
     int[] decorDirections = new int[4] { 1, -1, -1, 1 };
     float tempDtime;
+
+    private void Awake()
+    {
+        if (ProgressController.Instance == null)
+        {
+            ProgressController.Instance = new();
+        }
+        ProgressController.Instance.LoadGameData();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        PlayerData.Instance = ScriptableObject.CreateInstance<PlayerData>();
-        pController = new();
-        pController.LoadGame(PlayerData.Instance, LevelsController.Instance.Levels);
         tempDtime = 0;
         ToggleTimeTrial.isOn = IsTimeTrial;
         TrialLength = int.Parse(InputTimeTrialLength.GetComponent<TMP_InputField>().text);
         TextVersion.text = "v" + Application.version;
+        LoadSavedData();
+    }
 
-        //Debug.Log(Application.persistentDataPath);
+    void LoadSavedData()
+    {
+        PlayerData.Instance = ScriptableObject.CreateInstance<PlayerData>();
+        ProgressController.Instance.LoadPlayerData(PlayerData.Instance);
     }
 
     // Update is called once per frame
