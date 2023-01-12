@@ -24,4 +24,4 @@ MonoBehaviour:
   IsLevelPassed: 0
   PassLevel: 0
   ButtonColor: {r: 1, g: 1, b: 1, a: 1}
-  BestReaction: 0.47581336
+  BestReaction: 9999

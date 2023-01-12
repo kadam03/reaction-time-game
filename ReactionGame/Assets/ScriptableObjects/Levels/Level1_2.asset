@@ -20,8 +20,8 @@ MonoBehaviour:
   GoldPassPoints: 40
   Tiles:
   - {fileID: 11400000, guid: 32337c9f61d2588449802c1a6163c1cd, type: 2}
-  LevelHighScore: 44
-  IsLevelPassed: 1
-  PassLevel: 2
-  ButtonColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  BestReaction: 0.47057447
+  LevelHighScore: 0
+  IsLevelPassed: 0
+  PassLevel: 0
+  ButtonColor: {r: 1, g: 1, b: 1, a: 1}
+  BestReaction: 9999
