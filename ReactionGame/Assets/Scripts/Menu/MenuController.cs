@@ -28,7 +28,9 @@ public class MenuController : MonoBehaviour
         {
             ProgressController.Instance = new();
         }
+        PlayerData.Instance = ScriptableObject.CreateInstance<PlayerData>();
         ProgressController.Instance.LoadGameData();
+        ProgressController.Instance.LoadPlayerData(PlayerData.Instance);
     }
 
     // Start is called before the first frame update
@@ -38,13 +40,6 @@ public class MenuController : MonoBehaviour
         ToggleTimeTrial.isOn = IsTimeTrial;
         TrialLength = int.Parse(InputTimeTrialLength.GetComponent<TMP_InputField>().text);
         TextVersion.text = "v" + Application.version;
-        LoadSavedData();
-    }
-
-    void LoadSavedData()
-    {
-        PlayerData.Instance = ScriptableObject.CreateInstance<PlayerData>();
-        ProgressController.Instance.LoadPlayerData(PlayerData.Instance);
     }
 
     // Update is called once per frame

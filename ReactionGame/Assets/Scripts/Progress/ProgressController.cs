@@ -73,19 +73,25 @@ public class ProgressController
 
     public void LoadPlayerData(PlayerData pdata)
     {
-        SetPlayerData(pdata);
+        if (ProgData != null)
+        {
+            SetPlayerData(pdata);
+        }
     }
 
     private void SetPlayerData(PlayerData pData)
     {
-        pData.PlayerName = ProgData.PlayerName;
-        pData.ReachedLevel = ProgData.ReachedLevel;
-        pData.BestReaction = ProgData.BestReaction;
+            pData.PlayerName = ProgData.PlayerName;
+            pData.ReachedLevel = ProgData.ReachedLevel;
+            pData.BestReaction = ProgData.BestReaction;
     }
 
     public void LoadLevelData(List<LevelData> lData)
     {
-        SetLevelData(lData);
+        if (ProgData != null)
+        {
+            SetLevelData(lData);
+        }
     }
 
     private void SetLevelData(List<LevelData> lData)
