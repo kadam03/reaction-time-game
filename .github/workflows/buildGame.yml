@@ -1,4 +1,4 @@
-name: PC Build
+name: Build all platforms
 
 on: [push]
 
@@ -79,7 +79,7 @@ jobs:
             ReactionGame/Build/Android/
             !ReactionGame/Build/Android/*DoNotShip/
 
-  buildAndroid:
+  buildWeb:
     name: Build for Web ✨
     runs-on: ubuntu-latest
     steps:
