@@ -98,7 +98,7 @@ jobs:
           targetPlatform: Android
           projectPath: ReactionGame/
           buildsPath: ReactionGame/Build
-          androidTargetSdkVersion: AndroidApiLevel31
+          androidTargetSdkVersion: 31
 
       # Output
       - uses: actions/upload-artifact@v3
