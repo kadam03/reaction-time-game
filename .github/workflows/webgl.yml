@@ -9,12 +9,12 @@ jobs:
     steps:
       # Checkout
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           lfs: true
 
       # Cache
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: Library
           key: Library-${{ hashFiles('ReactionGame/Assets/**', 'ReactionGame/Packages/**', 'ReactionGame/ProjectSettings/**') }}
@@ -34,7 +34,9 @@ jobs:
           buildsPath: ReactionGame/Build
 
       # Output
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
-          name: build-StandaloneWindows64
-          path: ReactionGame/Build/StandaloneWindows64
+          name: CatchWin64
+          path: |
+            ReactionGame/Build/StandaloneWindows64/
+            !ReactionGame/Build/StandaloneWindows64/*DoNotShip/
