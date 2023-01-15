@@ -17,7 +17,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: Library
-          key: Library-${{ hashFiles('./ReactionGame/Assets/**', './ReactionGame/Packages/**', './ReactionGame/ProjectSettings/**') }}
+          key: Library-${{ hashFiles('ReactionGame/Assets/**', 'ReactionGame/Packages/**', 'ReactionGame/ProjectSettings/**') }}
           restore-keys: |
             Library-
 
@@ -30,11 +30,11 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: StandaloneWindows64
-          projectPath: ./ReactionGame/
-          buildsPath: ./ReactionGame/Build
+          projectPath: ReactionGame/
+          buildsPath: ReactionGame/Build
 
       # Output
       - uses: actions/upload-artifact@v2
         with:
           name: build-StandaloneWindows64
-          path: ./ReactionGame/Build/StandaloneWindows64
+          path: ReactionGame/Build/StandaloneWindows64
