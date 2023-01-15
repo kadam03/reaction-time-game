@@ -31,10 +31,10 @@ jobs:
         with:
           targetPlatform: StandaloneWindows64
           projectPath: ./ReactionGame/
-          buildsPath: ./ReactionGame/
+          buildsPath: ./ReactionGame/Build
 
       # Output
       - uses: actions/upload-artifact@v2
         with:
-          name: StandaloneWindows64
-          path: ./ReactionGame/StandaloneWindows64
+          name: build-StandaloneWindows64
+          path: ./ReactionGame/Build/StandaloneWindows64
