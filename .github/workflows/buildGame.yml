@@ -44,7 +44,7 @@ jobs:
   #KAndroid build
   buildAndroid:
     name: Build for Android 📱
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     steps:
