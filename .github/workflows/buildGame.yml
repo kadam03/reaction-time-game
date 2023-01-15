@@ -3,61 +3,88 @@ name: Build all platforms
 on: [push]
 
 jobs:
-  buildWin64:
-    name: Build for Win64 ✨
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          lfs: true
+  # buildWin64:
+  #   name: Build for Win64 ✨
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     # Checkout
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
+  #       with:
+  #         lfs: true
 
-      # Cache
-      - uses: actions/cache@v3
-        with:
-          path: Library
-          key: Library-${{ hashFiles('ReactionGame/Assets/**', 'ReactionGame/Packages/**', 'ReactionGame/ProjectSettings/**') }}
-          restore-keys: |
-            Library-
+  #     # Cache
+  #     - uses: actions/cache@v3
+  #       with:
+  #         path: Library
+  #         key: Library-${{ hashFiles('ReactionGame/Assets/**', 'ReactionGame/Packages/**', 'ReactionGame/ProjectSettings/**') }}
+  #         restore-keys: |
+  #           Library-
 
-      # Build
-      - name: Build project
-        uses: game-ci/unity-builder@v2
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        with:
-          targetPlatform: StandaloneWindows64
-          projectPath: ReactionGame/
-          buildsPath: ReactionGame/Build
+  #     # Build
+  #     - name: Build project
+  #       uses: game-ci/unity-builder@v2
+  #       env:
+  #         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  #         UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+  #         UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+  #       with:
+  #         targetPlatform: StandaloneWindows64
+  #         projectPath: ReactionGame/
+  #         buildsPath: ReactionGame/Build
 
-      # Output
-      - uses: actions/upload-artifact@v3
-        with:
-          name: CatchWin64
-          path: |
-            ReactionGame/Build/StandaloneWindows64/
-            !ReactionGame/Build/StandaloneWindows64/*DoNotShip/
-
+  #     # Output
+  #     - uses: actions/upload-artifact@v3
+  #       with:
+  #         name: CatchWin64
+  #         path: |
+  #           ReactionGame/Build/StandaloneWindows64/
+  #           !ReactionGame/Build/StandaloneWindows64/*DoNotShip/
+  
+  #KAndroid build
   buildAndroid:
-    name: Build for Android ✨
+    name: Build for Android 📱
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
     steps:
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          lfs: true
+        # with:
+        #   lfs: true
 
       # Cache
-      - uses: actions/cache@v3
+      - name: Create LFS file list
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+
+      - name: Restore LFS cache
+        uses: actions/cache@v2
+        id: lfs-cache
+        with:
+          path: .git/lfs
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+
+      - name: Git LFS Pull
+        run: |
+          git lfs pull
+          git add .
+          git reset --hard
+      - name: Restore Library cache
+        uses: actions/cache@v2
         with:
           path: Library
-          key: Library-${{ hashFiles('ReactionGame/Assets/**', 'ReactionGame/Packages/**', 'ReactionGame/ProjectSettings/**') }}
+          key: Library-build-Android
           restore-keys: |
+            Library-build-
             Library-
+
+      # - uses: actions/cache@v3
+      #   with:
+      #     path: Library
+      #     key: Library-${{ hashFiles('ReactionGame/Assets/**', 'ReactionGame/Packages/**', 'ReactionGame/ProjectSettings/**') }}
+      #     restore-keys: |
+      #       Library-
 
       # Build
       - name: Build project
@@ -79,40 +106,40 @@ jobs:
             ReactionGame/Build/Android/
             !ReactionGame/Build/Android/*DoNotShip/
 
-  buildWeb:
-    name: Build for Web ✨
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          lfs: true
+  # buildWeb:
+  #   name: Build for Web ✨
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     # Checkout
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
+  #       with:
+  #         lfs: true
 
-      # Cache
-      - uses: actions/cache@v3
-        with:
-          path: Library
-          key: Library-${{ hashFiles('ReactionGame/Assets/**', 'ReactionGame/Packages/**', 'ReactionGame/ProjectSettings/**') }}
-          restore-keys: |
-            Library-
+  #     # Cache
+  #     - uses: actions/cache@v3
+  #       with:
+  #         path: Library
+  #         key: Library-${{ hashFiles('ReactionGame/Assets/**', 'ReactionGame/Packages/**', 'ReactionGame/ProjectSettings/**') }}
+  #         restore-keys: |
+  #           Library-
 
-      # Build
-      - name: Build project
-        uses: game-ci/unity-builder@v2
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        with:
-          targetPlatform: WebGL
-          projectPath: ReactionGame/
-          buildsPath: ReactionGame/Build
+  #     # Build
+  #     - name: Build project
+  #       uses: game-ci/unity-builder@v2
+  #       env:
+  #         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  #         UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+  #         UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+  #       with:
+  #         targetPlatform: WebGL
+  #         projectPath: ReactionGame/
+  #         buildsPath: ReactionGame/Build
 
-      # Output
-      - uses: actions/upload-artifact@v3
-        with:
-          name: CatchWeb
-          path: |
-            ReactionGame/Build/WebGL/
-            !ReactionGame/Build/WebGL/*DoNotShip/
+  #     # Output
+  #     - uses: actions/upload-artifact@v3
+  #       with:
+  #         name: CatchWeb
+  #         path: |
+  #           ReactionGame/Build/WebGL/
+  #           !ReactionGame/Build/WebGL/*DoNotShip/
