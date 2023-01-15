@@ -44,7 +44,7 @@ jobs:
   #KAndroid build
   buildAndroid:
     name: Build for Android 📱
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       fail-fast: false
     steps:
@@ -70,7 +70,7 @@ jobs:
           git lfs pull
           git add .
           git reset --hard
-          
+
       - name: Restore Library cache
         uses: actions/cache@v3
         with:
