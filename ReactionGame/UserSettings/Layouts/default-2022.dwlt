@@ -75,7 +75,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 150}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 99
+  controlID: 110
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -336,9 +336,9 @@ MonoBehaviour:
     m_IsLocked: 1
   m_FolderTreeState:
     scrollPos: {x: 0, y: 60}
-    m_SelectedIDs: 42640000
-    m_LastClickedID: 25666
-    m_ExpandedIDs: 00000000206400002264000024640000266400002864000000ca9a3b
+    m_SelectedIDs: 3c640000
+    m_LastClickedID: 25660
+    m_ExpandedIDs: 000000001c6400001e64000020640000226400002464000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -366,7 +366,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000002064000022640000246400002664000028640000
+    m_ExpandedIDs: 000000001c6400001e640000206400002264000024640000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -504,9 +504,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: d0620000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 18fbffff1e630000
+      m_ExpandedIDs: 6cbbffffa4bbffff48bdffff56bdffff78bdffffa6bdffff18fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1016,7 +1016,7 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1080, y: 1920}
+  m_TargetSize: {x: 405, y: 809.5}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -1031,10 +1031,10 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -432
-    m_HBaseRangeMax: 432
-    m_VBaseRangeMin: -768
-    m_VBaseRangeMax: 768
+    m_HBaseRangeMin: -162
+    m_HBaseRangeMax: 162
+    m_VBaseRangeMin: -323.80002
+    m_VBaseRangeMax: 323.80002
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -1054,7 +1054,7 @@ MonoBehaviour:
       y: 21
       width: 1172.4
       height: 647.6
-    m_Scale: {x: 0.42161456, y: 0.42161456}
+    m_Scale: {x: 0.9999999, y: 0.9999999}
     m_Translation: {x: 586.2, y: 323.8}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -1062,12 +1062,12 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -1390.3695
-      y: -768
-      width: 2780.739
-      height: 1536
+      x: -586.2001
+      y: -323.80002
+      width: 1172.4001
+      height: 647.60004
     m_MinimalGUI: 1
-  m_defaultScale: 0.42161456
+  m_defaultScale: 0.9999999
   m_LastWindowPixelSize: {x: 1465.5, y: 835.75}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
