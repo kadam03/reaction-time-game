@@ -25,6 +25,8 @@ public class ProgressController
     public void SaveGame(PlayerData pData, List<LevelData> lData)
     {
         ProgData = new();
+        ProgData.GameVersion = Application.version;
+        ProgData.SaveDate = DateTime.Now;
         ProgData.ReachedLevel = pData.ReachedLevel;
         ProgData.BestReaction = pData.BestReaction;
         ProgData.LevelProgresses = new();
