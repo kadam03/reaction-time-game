@@ -44,7 +44,7 @@ jobs:
   #           ReactionGame/Build/StandaloneWindows64/
   #           !ReactionGame/Build/StandaloneWindows64/*DoNotShip/
        
-  KAndroid build
+  #KAndroid build
   buildAndroid:
     name: Build for Android 📱
     runs-on: ubuntu-latest
@@ -76,7 +76,6 @@ jobs:
           targetPlatform: Android
           projectPath: ReactionGame/
           buildsPath: ReactionGame/Build
-          androidTargetSdkVersion: 31
 
       # Output
       - uses: actions/upload-artifact@v3
