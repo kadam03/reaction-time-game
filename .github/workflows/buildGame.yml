@@ -2,6 +2,9 @@ name: Build all platforms
 
 on: [push]
 
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
 jobs:
   # buildWin64:
   #   name: Build for Win64 ✨
@@ -41,72 +44,118 @@ jobs:
   #           ReactionGame/Build/StandaloneWindows64/
   #           !ReactionGame/Build/StandaloneWindows64/*DoNotShip/
   
-  #KAndroid build
-  buildAndroid:
+  buildKAndroid:
     name: Build for Android 📱
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     steps:
-      # Checkout
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Create LFS file list
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+
+      - name: Restore LFS cache
+        uses: actions/cache@v3
+        id: lfs-cache
         with:
-          lfs: true
+          path: .git/lfs
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
 
-      # Cache
-      # - name: Create LFS file list
-      #   run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+      - name: Git LFS Pull
+        run: |
+          git lfs pull
+          git add .
+          git reset --hard
 
-      # - name: Restore LFS cache
-      #   uses: actions/cache@v3
-      #   id: lfs-cache
-      #   with:
-      #     path: .git/lfs
-      #     key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+      - name: Restore Library cache
+        uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-build-Android
+          restore-keys: |
+            Library-build-
+            Library-
 
-      # - name: Git LFS Pull
-      #   run: |
-      #     git lfs pull
-      #     git add .
-      #     git reset --hard
-
-      # - name: Restore Library cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: Library
-      #     key: Library-build-Android
-      #     restore-keys: |
-      #       Library-build-
-      #       Library-
-
-      # - uses: actions/cache@v3
-      #   with:
-      #     path: Library
-      #     key: Library-${{ hashFiles('ReactionGame/Assets/**', 'ReactionGame/Packages/**', 'ReactionGame/ProjectSettings/**') }}
-      #     restore-keys: |
-      #       Library-
-
-      # Build
-      - name: Build project
-        uses: game-ci/unity-builder@v2
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+      - uses: game-ci/unity-builder@v2
         with:
           targetPlatform: Android
           projectPath: ReactionGame/
           buildsPath: ReactionGame/Build
-          androidTargetSdkVersion: 31
 
-      # Output
       - uses: actions/upload-artifact@v3
         with:
-          name: CatchDroid
-          path: |
-            ReactionGame/Build/Android/
-            !ReactionGame/Build/Android/*DoNotShip/
+          name: build-Android
+          path: ReactionGame/Build/Android/
+          
+
+  #KAndroid build
+  # buildAndroid:
+  #   name: Build for Android 📱
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     fail-fast: false
+  #   steps:
+  #     # Checkout
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
+  #       with:
+  #         lfs: true
+
+  #     # Cache
+  #     # - name: Create LFS file list
+  #     #   run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+
+  #     # - name: Restore LFS cache
+  #     #   uses: actions/cache@v3
+  #     #   id: lfs-cache
+  #     #   with:
+  #     #     path: .git/lfs
+  #     #     key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+
+  #     # - name: Git LFS Pull
+  #     #   run: |
+  #     #     git lfs pull
+  #     #     git add .
+  #     #     git reset --hard
+
+  #     # - name: Restore Library cache
+  #     #   uses: actions/cache@v3
+  #     #   with:
+  #     #     path: Library
+  #     #     key: Library-build-Android
+  #     #     restore-keys: |
+  #     #       Library-build-
+  #     #       Library-
+
+  #     # - uses: actions/cache@v3
+  #     #   with:
+  #     #     path: Library
+  #     #     key: Library-${{ hashFiles('ReactionGame/Assets/**', 'ReactionGame/Packages/**', 'ReactionGame/ProjectSettings/**') }}
+  #     #     restore-keys: |
+  #     #       Library-
+
+  #     # Build
+  #     - name: Build project
+  #       uses: game-ci/unity-builder@v2
+  #       env:
+  #         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  #         UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+  #         UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+  #       with:
+  #         targetPlatform: Android
+  #         projectPath: ReactionGame/
+  #         buildsPath: ReactionGame/Build
+  #         androidTargetSdkVersion: 31
+
+  #     # Output
+  #     - uses: actions/upload-artifact@v3
+  #       with:
+  #         name: CatchDroid
+  #         path: |
+  #           ReactionGame/Build/Android/
+  #           !ReactionGame/Build/Android/*DoNotShip/
 
   # buildWeb:
   #   name: Build for Web ✨
