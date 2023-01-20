@@ -1193,6 +1193,7 @@ GameObject:
   - component: {fileID: 648276072}
   - component: {fileID: 648276071}
   - component: {fileID: 648276070}
+  - component: {fileID: 648276074}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Canvas
@@ -1299,6 +1300,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!95 &648276074
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648276069}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6a94986167cbd1c4da9133fb83f81b7d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &669179940
 GameObject:
   m_ObjectHideFlags: 0
@@ -3982,6 +4003,7 @@ GameObject:
   - component: {fileID: 1615317221}
   - component: {fileID: 1615317223}
   - component: {fileID: 1615317222}
+  - component: {fileID: 1615317224}
   m_Layer: 5
   m_Name: PauseShade
   m_TagString: Untagged
@@ -4022,7 +4044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2830189, g: 0.025097886, b: 0.025097886, a: 0.45490196}
+  m_Color: {r: 0.2830189, g: 0.02509789, b: 0.02509789, a: 0.454902}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4047,6 +4069,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1615317220}
   m_CullTransparentMesh: 1
+--- !u!95 &1615317224
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615317220}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f02bf013ecd9d0145b6e91c3f7464160, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1644128645
 GameObject:
   m_ObjectHideFlags: 0

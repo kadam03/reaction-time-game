@@ -30,7 +30,8 @@ public class GameController : MonoBehaviour
     public GameObject SpawnArea = null;
     public GameObject GameCanvas = null;
     public GameObject BtnNextLevel = null;
-
+    
+    Animator Animator = null;
     Tile currentTile;
     bool tileVisible;
     bool isCountDown;
@@ -45,6 +46,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Instance = this;
+        Animator = GameCanvas.GetComponent<Animator>();
         if (PlayerData.Instance == null)
         {
             PlayerData.Instance = ScriptableObject.CreateInstance<PlayerData>();  // once save and load are implemented here the play data will be loaded
@@ -167,7 +169,7 @@ public class GameController : MonoBehaviour
 
     public void MissClick()
     {
-        if (!IsPaused)
+        if (!IsPaused && !isCountDown)
         {
             if (currentTile.tileData.friendlyness == TileData.Friendlyness.TimeKiller)
             {
@@ -177,6 +179,7 @@ public class GameController : MonoBehaviour
             }
             else
             {
+                PlayMissAnim();
                 points--;
             }
 
@@ -308,10 +311,17 @@ public class GameController : MonoBehaviour
         }
     }
 
+    internal void PlayMissAnim()
+    {
+        if (Animator != null)
+        {
+            Animator.SetTrigger("Miss");
+        }
+    }
+
     void SaveProgress()
     {
         CurrentLevelData.BestReaction = PlayerData.Instance.BestReaction;
-        //ProgressController pCont = new();
         ProgressController.Instance.SaveGame(PlayerData.Instance, LevelsController.Instance.Levels);
     }
 }
