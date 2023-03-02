@@ -20,6 +20,7 @@ public class ProgressData
     // General app info
     public string GameVersion;
     public DateTime SaveDate;
+    public bool MutedGame;
 
     public string SerializeToJson()
     {

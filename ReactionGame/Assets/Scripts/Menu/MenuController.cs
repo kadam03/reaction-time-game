@@ -12,6 +12,7 @@ public class MenuController : MonoBehaviour
     public Toggle ToggleTimeTrial = null;
     public GameObject InputTimeTrialLength = null;
     public TMP_Text TextVersion = null;
+    public AudioSource BackgroundAmbience = null;
     public GameObject CanvasMenu = null;
     public GameObject[] DecorTiles = new GameObject[4];
 
@@ -40,6 +41,7 @@ public class MenuController : MonoBehaviour
         ToggleTimeTrial.isOn = IsTimeTrial;
         TrialLength = int.Parse(InputTimeTrialLength.GetComponent<TMP_InputField>().text);
         TextVersion.text = "v" + Application.version;
+        BackgroundAmbience.mute = ProgressController.Instance.ProgData.MutedGame;
     }
 
     // Update is called once per frame
@@ -63,6 +65,7 @@ public class MenuController : MonoBehaviour
         // handling the application differently in case of editor run or normal build run
         #if UNITY_EDITOR
             EditorApplication.isPlaying = false;
+            ProgressController.Instance.SaveGame();
         #endif
 
         #if UNITY_WEBGL
@@ -70,6 +73,12 @@ public class MenuController : MonoBehaviour
         #else
             Application.Quit();
         #endif
+    }
+
+    public void MuteAmbience()
+    {
+        BackgroundAmbience.mute = !BackgroundAmbience.mute;
+        ProgressController.Instance.ProgData.MutedGame = BackgroundAmbience.mute;
     }
 
     public void ToggleTimeTrialChanged()

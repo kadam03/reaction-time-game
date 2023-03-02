@@ -49,6 +49,11 @@ public class ProgressController
         SaveDataFile(ProgData.SerializeToJson());
     }
 
+    public void SaveGame()
+    {
+        SaveDataFile(ProgData.SerializeToJson());
+    }
+
     private void SaveDataFile(string json)
     {
         string filePath = Application.persistentDataPath + @"\" + progressFileName;
