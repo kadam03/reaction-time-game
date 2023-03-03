@@ -19,5 +19,6 @@ MonoBehaviour:
   Disappears: 0
   Time: 0
   friendlyness: 0
+  BreakEffect: {fileID: 8300000, guid: e3e68b2b8d2de534ab2b41cb6194986f, type: 3}
   Weight: 100
   Description: Catching this tile rewards you with 1 point.

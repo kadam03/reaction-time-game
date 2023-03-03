@@ -30,6 +30,8 @@ public class GameController : MonoBehaviour
     public GameObject SpawnArea = null;
     public GameObject GameCanvas = null;
     public GameObject BtnNextLevel = null;
+
+    public AudioSource Effects = null;
     
     Animator Animator = null;
     Tile currentTile;

@@ -23,9 +23,9 @@ public class TileData : ScriptableObject
     public bool Disappears;
     public float Time;
     public Friendlyness friendlyness;
+    public AudioClip BreakEffect;
     [Range(0, 100)]
     public int Weight;
     [TextArea(3, 5)]
     public string Description;
-
 }

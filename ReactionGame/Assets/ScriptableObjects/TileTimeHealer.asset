@@ -19,6 +19,7 @@ MonoBehaviour:
   Disappears: 1
   Time: 1
   friendlyness: 4
+  BreakEffect: {fileID: 8300000, guid: f9d88908a3529cd4fbebeddd84d3cb80, type: 3}
   Weight: 20
   Description: You have 1 second to catch this tile and it increases your remaining
     time with 1 seconds.
