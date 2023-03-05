@@ -28,10 +28,10 @@ public class MenuController : MonoBehaviour
         if (ProgressController.Instance == null)
         {
             ProgressController.Instance = new();
+            PlayerData.Instance = ScriptableObject.CreateInstance<PlayerData>();
+            ProgressController.Instance.LoadGameData();
+            ProgressController.Instance.LoadPlayerData(PlayerData.Instance);
         }
-        PlayerData.Instance = ScriptableObject.CreateInstance<PlayerData>();
-        ProgressController.Instance.LoadGameData();
-        ProgressController.Instance.LoadPlayerData(PlayerData.Instance);
     }
 
     // Start is called before the first frame update

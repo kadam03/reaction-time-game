@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac0c2645cb92314594bd535259329f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TestLvlData: {fileID: 11400000, guid: 36dfedeb5e50c064180b6c850f14df92, type: 2}
   TextTimer: {fileID: 754365146}
   TextPoints: {fileID: 266729951}
   TextBestReaction: {fileID: 59193377}
@@ -173,7 +174,8 @@ MonoBehaviour:
   SpawnArea: {fileID: 392634064}
   GameCanvas: {fileID: 648276069}
   BtnNextLevel: {fileID: 1011688869}
-  Effects: {fileID: 39590454}
+  EffectsPlayer: {fileID: 39590454}
+  EffectMiss: {fileID: 8300000, guid: d3d3ad11f591b7341ace2eedd919ffe8, type: 3}
 --- !u!4 &39590452
 Transform:
   m_ObjectHideFlags: 0

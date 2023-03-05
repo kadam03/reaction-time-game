@@ -20,6 +20,6 @@ MonoBehaviour:
   Time: 1
   friendlyness: 0
   BreakEffect: {fileID: 8300000, guid: 0c622df36e6543d4f92ee728a516e625, type: 3}
-  Weight: 30
+  Weight: 20
   Description: Catch this tile before it disappears and it will reward you with 2
     points!

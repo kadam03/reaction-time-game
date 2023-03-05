@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ public class GameController : MonoBehaviour
     public static GameController Instance = null;
     public static int StartTime = 20; // todo: set based on the menu setting
     public static LevelData CurrentLevelData = null;
+    public LevelData TestLvlData = null;
     public TMP_Text TextTimer = null;
     public TMP_Text TextPoints = null;
     public TMP_Text TextBestReaction = null;
@@ -31,7 +33,8 @@ public class GameController : MonoBehaviour
     public GameObject GameCanvas = null;
     public GameObject BtnNextLevel = null;
 
-    public AudioSource Effects = null;
+    public AudioSource EffectsPlayer = null;
+    public AudioClip EffectMiss = null;
     
     Animator Animator = null;
     Tile currentTile;
@@ -42,7 +45,16 @@ public class GameController : MonoBehaviour
     float avgReaction = 0;
     int numberOfCatched = 0;
 
-    
+    private void Awake()
+    {
+        if (CurrentLevelData == null)
+        {
+            CurrentLevelData = TestLvlData;
+            LevelsController.Instance = new();
+            ProgressController.Instance = new();
+            ProgressController.Instance.ProgData = new();
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -155,6 +167,7 @@ public class GameController : MonoBehaviour
                     points += td.RewardValue;
                     break;
                 case TileData.Friendlyness.TimeKiller:
+                    PlayMissAnim();
                     GameTimer.RemainTime -= td.MistakeValue;
                     break;
                 case TileData.Friendlyness.TimeHealer:
@@ -181,7 +194,7 @@ public class GameController : MonoBehaviour
             }
             else
             {
-                PlayMissAnim();
+                PlayerMistake();
                 points--;
             }
 
@@ -189,11 +202,22 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void PlayerMistake()
+    {
+        if (!ProgressController.Instance.ProgData.MutedGame)
+        {
+            EffectsPlayer.clip = EffectMiss;
+            EffectsPlayer.Play();
+        }
+        PlayMissAnim();
+    }
+
     public void TileDisappeared(GameObject tile)
     {
         TileData td = tile.GetComponent<Tile>().tileData;
         if (!IsPaused)
         {
+            PlayerMistake();
             switch (td.friendlyness)
             {
                 case TileData.Friendlyness.PointKiller:
@@ -306,9 +330,7 @@ public class GameController : MonoBehaviour
             currentTile = Instantiate(TilePrefab, pos + rt.transform.position, Quaternion.identity).GetComponent<Tile>();
             currentTile.tileData = LevelsController.Instance.WeightedRandomTile(CurrentLevelData);
             currentTile.transform.SetParent(GameCanvas.transform);
-
             currentTile.transform.localScale = new Vector3(currentTile.GetComponent<RectTransform>().localScale.x * refScaleX, currentTile.GetComponent<RectTransform>().localScale.y * refScaleY, GameCanvas.GetComponent<RectTransform>().localScale.z);
-
             tileVisible = true;
         }
     }

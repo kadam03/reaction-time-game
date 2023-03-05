@@ -12,7 +12,7 @@ public class HelpController : MonoBehaviour
     public GameObject SampleText = null;
     public List<TileData> TileTypes = new List<TileData>();
 
-    float leftOffset = 120;
+    float leftOffset = 60;
     float topOffset = -60;
 
     // Start is called before the first frame update

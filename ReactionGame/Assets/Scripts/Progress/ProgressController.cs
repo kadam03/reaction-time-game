@@ -24,7 +24,7 @@ public class ProgressController
 
     public void SaveGame(PlayerData pData, List<LevelData> lData)
     {
-        ProgData = new();
+        //ProgData = new();
         ProgData.GameVersion = Application.version;
         ProgData.SaveDate = DateTime.Now;
         ProgData.ReachedLevel = pData.ReachedLevel;
@@ -75,6 +75,12 @@ public class ProgressController
                 JsonSerializer ser = new();
                 ProgData = (ProgressData)ser.Deserialize(reader, typeof(ProgressData));
             }
+        }
+        else
+        {
+            ProgData = new ProgressData();
+            ProgData.LevelProgresses = new List<LevelProgress>();
+
         }
     }
 

@@ -46,7 +46,7 @@ public class Tile : MonoBehaviour
     {
         if (tileData.BreakEffect != null && !ProgressController.Instance.ProgData.MutedGame)
         {
-            AudioSource.PlayClipAtPoint(tileData.BreakEffect, new Vector3(0,0,-10));
+            AudioSource.PlayClipAtPoint(tileData.BreakEffect, new Vector3(0, 0, -7));
         }
         GameController.Instance.TileCatched(this.gameObject);
     }
