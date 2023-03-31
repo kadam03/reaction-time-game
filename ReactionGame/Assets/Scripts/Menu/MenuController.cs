@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -15,6 +16,9 @@ public class MenuController : MonoBehaviour
     public AudioSource BackgroundAmbience = null;
     public GameObject CanvasMenu = null;
     public GameObject[] DecorTiles = new GameObject[4];
+    public GameObject ButtonMute = null;
+    public Sprite ImageMuted = null;
+    public Sprite ImageUnmuted = null;
 
     public static bool IsTimeTrial = true;
     public int TrialLength;
@@ -42,6 +46,7 @@ public class MenuController : MonoBehaviour
         TrialLength = int.Parse(InputTimeTrialLength.GetComponent<TMP_InputField>().text);
         TextVersion.text = "v" + Application.version;
         BackgroundAmbience.mute = ProgressController.Instance.ProgData.MutedGame;
+        SetMuteButtonSprite(BackgroundAmbience.mute);
     }
 
     // Update is called once per frame
@@ -79,6 +84,12 @@ public class MenuController : MonoBehaviour
     {
         BackgroundAmbience.mute = !BackgroundAmbience.mute;
         ProgressController.Instance.ProgData.MutedGame = BackgroundAmbience.mute;
+        SetMuteButtonSprite(BackgroundAmbience.mute);
+    }
+
+    private void SetMuteButtonSprite(bool muted)
+    {
+        ButtonMute.GetComponent<Button>().image.sprite = BackgroundAmbience.mute ? ImageMuted : ImageUnmuted;
     }
 
     public void ToggleTimeTrialChanged()
