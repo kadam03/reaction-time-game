@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -50,7 +49,7 @@ public class GameController : MonoBehaviour
         if (CurrentLevelData == null)
         {
             CurrentLevelData = TestLvlData;
-            LevelsController.Instance = new();
+            //LevelsController.Instance.Levels = 
             ProgressController.Instance = new();
             ProgressController.Instance.ProgData = new();
         }
@@ -143,7 +142,12 @@ public class GameController : MonoBehaviour
     {
         if (CurrentLevelData.Level < LevelsController.Instance.Levels.Count)
         {
+            BtnNextLevel.gameObject.SetActive(true);
             LevelsController.Instance.LoadLevel(CurrentLevelData.Level + 1);
+        }
+        else
+        {
+            BtnNextLevel.gameObject.SetActive(false);
         }
     }
 
@@ -328,7 +332,8 @@ public class GameController : MonoBehaviour
             pos.y = Random.Range(rt.rect.yMin, rt.rect.yMax) * refScaleY;
 
             currentTile = Instantiate(TilePrefab, pos + rt.transform.position, Quaternion.identity).GetComponent<Tile>();
-            currentTile.tileData = LevelsController.Instance.WeightedRandomTile(CurrentLevelData);
+            //currentTile.tileData = LevelsController.Instance.WeightedRandomTile(CurrentLevelData);
+            currentTile.tileData = CurrentLevelData.GetRandomTileData();
             currentTile.transform.SetParent(GameCanvas.transform);
             currentTile.transform.localScale = new Vector3(currentTile.GetComponent<RectTransform>().localScale.x * refScaleX, currentTile.GetComponent<RectTransform>().localScale.y * refScaleY, GameCanvas.GetComponent<RectTransform>().localScale.z);
             tileVisible = true;

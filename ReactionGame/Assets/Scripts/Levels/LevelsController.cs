@@ -11,37 +11,38 @@ using UnityEngine.Windows;
 
 public class LevelsController : MonoBehaviour
 {
-    public static LevelsController Instance;
+    public static LevelsController Instance = new();
     public GameObject ReferenceTile;
     public GameObject LevelCanvas;
     public GameObject TilePanel;
     public List<LevelData> Levels = new();
 
     int stepSize = 140;
-    List<string> tileSet = new();
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        ProgressController.Instance.LoadLevelData(Levels);
+        CreateInstance();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-
-        tileSet.Clear();
         InstLvlButtons();
-        
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void CreateInstance()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        ProgressController.Instance.LoadLevelData(Levels);
     }
 
     private void InstLvlButtons()
@@ -89,45 +90,23 @@ public class LevelsController : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void LoadLevel(int level)
+    public void LoadLevel(int level) // Real level number not index. If you want to load lvl 8, pass 8 as parameter
     {
-        if (level == 1 || Levels[level - 2].IsLevelPassed) // - 1 because it is a level identifier number and -1 more because we want to check whether the previous level is passed --> -2
+        if (level == 1 || Levels[level - 2].IsLevelPassed)
         {
-            GameController.CurrentLevelData = Levels[level - 1]; // - 1 because of indexing (the level stores the real level number)
+            GameController.CurrentLevelData = Levels[level - 1]; 
             SceneManager.LoadScene(1);
         }
     }
 
-    public void LoadSelectedLevel(GameObject go)
+    private void LoadSelectedLevel(GameObject go)
     {
         int level = int.Parse(go.GetComponent<Button>().GetComponentInChildren<TMP_Text>().text);
         LoadLevel(level);
     }
 
-    // Lame weighted random generator, might be improved in the future (or not, like evething else like this :D)
-    public TileData WeightedRandomTile(LevelData ld)
-    {
-        if (tileSet.Count <= 0)
-        {
-            foreach (TileData tile in ld.Tiles)
-            {
-                for (int i = 0; i < tile.Weight; i++)
-                {
-                    tileSet.Add(tile.TileName);
-                }
-            }
-        }
-
-        int place = Random.Range(0, tileSet.Count);
-        return ld.Tiles.First(x => x.TileName.Equals(tileSet[place]));
-    }
-
     public void SaveLevelData()
     {
-        //string levelJSon = JsonUtility.ToJson(Levels);
-        //Debug.Log(levelJSon);
-        //JsonSerializer serialazier = new JsonSerializer();
-        //string json = JsonConvert.SerializeObject(Levels);
-        //Debug.Log(json);
+        
     }
 }

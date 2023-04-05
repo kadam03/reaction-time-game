@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "Level", menuName = "ReactionGame/Level")]
 public class LevelData : ScriptableObject
@@ -32,6 +35,41 @@ public class LevelData : ScriptableObject
     public PassLevels PassLevel;
     public Color ButtonColor = Color.white;
     public float BestReaction;
+
+    List<string> weightedTileList = new List<string>();
+
+    public void RegenerateWeightedList()
+    {
+        weightedTileList.Clear();
+
+        if (weightedTileList.Count <= 0)
+        {
+            foreach (TileData tile in Tiles)
+            {
+                for (int i = 0; i < tile.Weight; i++)
+                {
+                    weightedTileList.Add(tile.TileName);
+                }
+            }
+        }
+    }
+
+    // Lame weighted random generator, might be improved in the future (or not, like evething else like this :D)
+    public TileData GetRandomTileData()
+    {
+        if (Tiles.Count == 0)
+        {
+            return null;
+        }
+
+        if (weightedTileList.Count == 0)
+        {
+            RegenerateWeightedList();
+        }
+
+        int place = Random.Range(0, weightedTileList.Count);
+        return Tiles.First(x => x.TileName.Equals(weightedTileList[place]));
+    }
 
     public bool CalculateLevelPass(int points)
     {
