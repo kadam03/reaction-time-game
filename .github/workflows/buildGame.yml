@@ -35,6 +35,7 @@ jobs:
           targetPlatform: StandaloneWindows64
           projectPath: ReactionGame/
           buildsPath: ReactionGame/Build
+          versioning: Semantic
 
       # Output
       - uses: actions/upload-artifact@v3
@@ -76,6 +77,7 @@ jobs:
           targetPlatform: Android
           projectPath: ReactionGame/
           buildsPath: ReactionGame/Build
+          versioning: Semantic
 
       # Output
       - uses: actions/upload-artifact@v3
@@ -114,6 +116,7 @@ jobs:
           targetPlatform: WebGL
           projectPath: ReactionGame/
           buildsPath: ReactionGame/Build
+          versioning: Semantic
 
       # Output
       - uses: actions/upload-artifact@v3
